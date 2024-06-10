@@ -1,10 +1,24 @@
 import {Request, Response} from "express";
+import { User } from "../../model/User";
+import { z } from "zod";
 
-    class ProfessorRoute{
+    class UserRoute{
+
+        public _user:User
 
         async create (req: Request, res: Response){
-            res.json({
-                message: 'Welcome',
+            const createStudentBody = z.object({
+                name: z.string().length(80),
+                email: z.string().email(),
+                password: z.string(),
+                role: z.string()
+            });
+
+            const {name, email, password, role} = createStudentBody.parse(req.body);
+            
+            this._user = await User.create(name, email, password, role);
+            res.status(201).json({
+                userId:this._user.getId
             });
         }
 
@@ -34,4 +48,4 @@ import {Request, Response} from "express";
         
     }
 
-    export const professor = new ProfessorRoute();
+    export const user = new UserRoute();

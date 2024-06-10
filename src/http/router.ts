@@ -1,23 +1,26 @@
 import { Router } from "express";
 import { home } from "./routes/HomeRoute";
-import { aluno } from "./routes/AlunoRoute";
+import { student } from "./routes/StudentRoute";
 import { professor } from "./routes/ProfessorRoute";
+import { user } from "./routes/UserRoute";
 
 
 const router: Router = Router();
 
 router.get("/", home.paginaInicial);
 
-router.get("/alunos", aluno.buscarTodos);
-router.get("/alunos/:id", aluno.buscar);
-router.delete("/alunos/:id", aluno.deletar);
-router.put("/alunos/:id", aluno.atualizar);
-router.post("/alunos", aluno.criar);
+router.get("/students", student.getAll);
+router.get("/students/:id", student.get);
+router.delete("/students/:id", student.delete);
+router.put("/students/:id", student.update);
+router.post("/students", student.create);
 
-router.get("/professores", professor.buscarTodos);
-router.get("/professores/:id", professor.buscar);
-router.delete("/professores/:id", professor.deletar);
-router.put("/professores/:id", professor.atualizar);
-router.post("/professores", professor.criar);
+router.post("/users", user.create);
+
+router.get("/professors", professor.getAll);
+router.get("/professors/:id", professor.get);
+router.delete("/professors/:id", professor.delete);
+router.put("/professors/:id", professor.update);
+router.post("/professors", professor.create);
 
 export { router };
