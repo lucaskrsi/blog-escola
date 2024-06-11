@@ -9,6 +9,9 @@ class Uuid {
         }
         this._value = value;
     }
+    getValue() {
+        return this._value;
+    }
     static randomGenerator() {
         return new Uuid((0, uuid_1.v4)());
     }

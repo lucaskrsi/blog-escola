@@ -12,6 +12,10 @@ export class Uuid
         this._value = value;
     }
 
+    public getValue(){
+        return this._value;
+    } 
+
     static randomGenerator(): Uuid
     {
         return new Uuid(uuidV4());

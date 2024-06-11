@@ -7,14 +7,7 @@ import { User } from "./User";
 
 export class Student {
 
-    public async get(id: string) {
-        
-        const user = new User();
-        user = user.get
-        
-
-        return user;
-    }
+    
 
     public async create(name: string, email: string, birthDate: string, password: string) {
         let user = await prisma.user.findFirst({ where: { email } })
