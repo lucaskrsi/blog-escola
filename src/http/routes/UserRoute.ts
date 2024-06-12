@@ -5,42 +5,63 @@ import { ErrorHandler } from "../../Exceptions/ErrorHandler";
 
 class UserRoute {
 
-    async create(req: Request, res: Response, next: NextFunction){
-        const createBody = z.object({
-            name: z.string().max(80),
-            email: z.string().email(),
-            password: z.string(),
-            role: z.string()
-        });
-
-        const { name, email, password, role } = createBody.parse(req.body);
-
+    async login(req: Request, res: Response, next: NextFunction) {
         try {
+            const createBody = z.object({
+                email: z.string().email(),
+                password: z.string()
+            });
+
+            const { email, password } = createBody.parse(req.body);
+            const { token, user } = await User.executeAuthentication(email, password);
+            const refreshToken = await User.generateRefreshToken(user.getId());
+            res.status(201).json({
+                data: {
+                    token,
+                    refreshToken,
+                }
+            });
+        } catch (e) {
+            next(ErrorHandler.handler(e));
+        }
+    }
+
+    async create(req: Request, res: Response, next: NextFunction) {
+        try {
+            const createBody = z.object({
+                name: z.string().max(80),
+                email: z.string().email(),
+                password: z.string(),
+                role: z.string()
+            });
+
+            const { name, email, password, role } = createBody.parse(req.body);
+
             const user = await User.create(name, email, password, role);
             res.status(201).json({
                 data: { userId: user.getId() },
             });
         } catch (e) {
-            next(e);
+            next(ErrorHandler.handler(e));
         }
     }
 
     async update(req: Request, res: Response, next: NextFunction) {
-        const createBody = z.object({
-            name: z.optional(z.string().max(80)),
-            email: z.optional(z.string().email()),
-            password: z.optional(z.string()),
-            role: z.optional(z.string()),
-        });
-
-        const createParam = z.object({
-            id: z.string().max(36),
-        })
-
-        const { name, email, password, role } = createBody.parse(req.body);
-        const { id } = createParam.parse(req.params);
-
         try {
+            const createBody = z.object({
+                name: z.optional(z.string().max(80)),
+                email: z.optional(z.string().email()),
+                password: z.optional(z.string()),
+                role: z.optional(z.string()),
+            });
+
+            const createParam = z.object({
+                id: z.string().max(36),
+            })
+
+            const { name, email, password, role } = createBody.parse(req.body);
+            const { id } = createParam.parse(req.params);
+
             const user = await User.update(id, name, email, password, role);
             res.status(201).json({
                 data: { userId: user.getId() },
@@ -52,29 +73,29 @@ class UserRoute {
     }
 
     async delete(req: Request, res: Response, next: NextFunction) {
-        const createParam = z.object({
-            id: z.string().max(36),
-        });
-
-        const { id } = createParam.parse(req.params);
         try {
+            const createParam = z.object({
+                id: z.string().max(36),
+            });
+
+            const { id } = createParam.parse(req.params);
             const userId = await User.delete(id);
             res.status(200).json({
                 data: { userId: userId },
                 message: 'Deleted successfully',
             });
         } catch (e) {
-            next(e);
+            next(ErrorHandler.handler(e));
         }
     }
 
     async get(req: Request, res: Response, next: NextFunction) {
-        const createParam = z.object({
-            id: z.string().max(36),
-        });
-
-        const { id } = createParam.parse(req.params);
         try {
+            const createParam = z.object({
+                id: z.string().max(36),
+            });
+
+            const { id } = createParam.parse(req.params);
             const user = await User.get(id);
             res.status(200).json({
                 data: {
@@ -85,7 +106,7 @@ class UserRoute {
                 },
             });
         } catch (e) {
-            next(e);
+            next(ErrorHandler.handler(e));
         }
     }
 
@@ -104,7 +125,7 @@ class UserRoute {
                 data: list,
             });
         } catch (e) {
-            next(e);
+            next(ErrorHandler.handler(e));
         }
     }
 

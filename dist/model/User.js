@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const client_1 = require("@prisma/client");
@@ -15,6 +18,8 @@ const client_2 = require("../database/config/client");
 const bcrypt_1 = require("bcrypt");
 const uuid_1 = require("uuid");
 const HttpException_1 = require("../Exceptions/HttpException");
+const jsonwebtoken_1 = require("jsonwebtoken");
+const dayjs_1 = __importDefault(require("dayjs"));
 class User {
     constructor(id = undefined, name, email, password, role) {
         if (typeof id !== "undefined") {
@@ -26,11 +31,51 @@ class User {
         this._password = password;
         this._role = role;
     }
+    static executeAuthentication(email, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User.getByEmail(email);
+            const passwordMatch = (0, bcrypt_1.compareSync)(password, user.getPassword());
+            if (!passwordMatch) {
+                throw HttpException_1.HttpException.UnauthorizedError("Email or password incorrect");
+            }
+            const token = (0, jsonwebtoken_1.sign)({}, process.env.JWT_KEY, {
+                subject: user.getId(),
+                expiresIn: "20s"
+            });
+            return { token, user };
+        });
+    }
+    static generateRefreshToken(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const expiresIn = (0, dayjs_1.default)().add(15, "second").unix();
+            const generateRefreshToken = yield client_2.prisma.refreshToken.create({
+                data: {
+                    userId: id,
+                    expiresIn,
+                }
+            });
+            return generateRefreshToken;
+        });
+    }
     static get(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const userPrisma = yield client_2.prisma.user.findUnique({
                 where: {
                     id: id,
+                },
+            });
+            if (!userPrisma) {
+                throw HttpException_1.HttpException.NotFoundError("User not found");
+            }
+            const user = new User(userPrisma.id, userPrisma.name, userPrisma.email, userPrisma.password, userPrisma.role);
+            return user;
+        });
+    }
+    static getByEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userPrisma = yield client_2.prisma.user.findUnique({
+                where: {
+                    email: email,
                 },
             });
             if (!userPrisma) {

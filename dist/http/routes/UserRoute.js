@@ -14,40 +14,62 @@ const User_1 = require("../../model/User");
 const zod_1 = require("zod");
 const ErrorHandler_1 = require("../../Exceptions/ErrorHandler");
 class UserRoute {
+    login(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const createBody = zod_1.z.object({
+                    email: zod_1.z.string().email(),
+                    password: zod_1.z.string()
+                });
+                const { email, password } = createBody.parse(req.body);
+                const { token, user } = yield User_1.User.executeAuthentication(email, password);
+                const refreshToken = yield User_1.User.generateRefreshToken(user.getId());
+                res.status(201).json({
+                    data: {
+                        token,
+                        refreshToken,
+                    }
+                });
+            }
+            catch (e) {
+                next(ErrorHandler_1.ErrorHandler.handler(e));
+            }
+        });
+    }
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const createBody = zod_1.z.object({
-                name: zod_1.z.string().max(80),
-                email: zod_1.z.string().email(),
-                password: zod_1.z.string(),
-                role: zod_1.z.string()
-            });
-            const { name, email, password, role } = createBody.parse(req.body);
             try {
+                const createBody = zod_1.z.object({
+                    name: zod_1.z.string().max(80),
+                    email: zod_1.z.string().email(),
+                    password: zod_1.z.string(),
+                    role: zod_1.z.string()
+                });
+                const { name, email, password, role } = createBody.parse(req.body);
                 const user = yield User_1.User.create(name, email, password, role);
                 res.status(201).json({
                     data: { userId: user.getId() },
                 });
             }
             catch (e) {
-                next(e);
+                next(ErrorHandler_1.ErrorHandler.handler(e));
             }
         });
     }
     update(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const createBody = zod_1.z.object({
-                name: zod_1.z.optional(zod_1.z.string().max(80)),
-                email: zod_1.z.optional(zod_1.z.string().email()),
-                password: zod_1.z.optional(zod_1.z.string()),
-                role: zod_1.z.optional(zod_1.z.string()),
-            });
-            const createParam = zod_1.z.object({
-                id: zod_1.z.string().max(36),
-            });
-            const { name, email, password, role } = createBody.parse(req.body);
-            const { id } = createParam.parse(req.params);
             try {
+                const createBody = zod_1.z.object({
+                    name: zod_1.z.optional(zod_1.z.string().max(80)),
+                    email: zod_1.z.optional(zod_1.z.string().email()),
+                    password: zod_1.z.optional(zod_1.z.string()),
+                    role: zod_1.z.optional(zod_1.z.string()),
+                });
+                const createParam = zod_1.z.object({
+                    id: zod_1.z.string().max(36),
+                });
+                const { name, email, password, role } = createBody.parse(req.body);
+                const { id } = createParam.parse(req.params);
                 const user = yield User_1.User.update(id, name, email, password, role);
                 res.status(201).json({
                     data: { userId: user.getId() },
@@ -61,11 +83,11 @@ class UserRoute {
     }
     delete(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const createParam = zod_1.z.object({
-                id: zod_1.z.string().max(36),
-            });
-            const { id } = createParam.parse(req.params);
             try {
+                const createParam = zod_1.z.object({
+                    id: zod_1.z.string().max(36),
+                });
+                const { id } = createParam.parse(req.params);
                 const userId = yield User_1.User.delete(id);
                 res.status(200).json({
                     data: { userId: userId },
@@ -73,17 +95,17 @@ class UserRoute {
                 });
             }
             catch (e) {
-                next(e);
+                next(ErrorHandler_1.ErrorHandler.handler(e));
             }
         });
     }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const createParam = zod_1.z.object({
-                id: zod_1.z.string().max(36),
-            });
-            const { id } = createParam.parse(req.params);
             try {
+                const createParam = zod_1.z.object({
+                    id: zod_1.z.string().max(36),
+                });
+                const { id } = createParam.parse(req.params);
                 const user = yield User_1.User.get(id);
                 res.status(200).json({
                     data: {
@@ -95,7 +117,7 @@ class UserRoute {
                 });
             }
             catch (e) {
-                next(e);
+                next(ErrorHandler_1.ErrorHandler.handler(e));
             }
         });
     }
@@ -116,7 +138,7 @@ class UserRoute {
                 });
             }
             catch (e) {
-                next(e);
+                next(ErrorHandler_1.ErrorHandler.handler(e));
             }
         });
     }

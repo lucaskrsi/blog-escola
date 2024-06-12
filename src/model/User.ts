@@ -1,10 +1,13 @@
 import { Prisma, Role } from "@prisma/client";
 import { prisma } from "../database/config/client"
-import { hashSync } from "bcrypt";
+import { compare, compareSync, hashSync } from "bcrypt";
 import { validate as validateUuid } from "uuid";
 import { PrismaExceptionHandler } from "../Exceptions/PrismaExceptionHandler";
 import { HttpException } from "../Exceptions/HttpException";
 import { ErrorHandler } from "../Exceptions/ErrorHandler";
+import { sign } from "jsonwebtoken";
+import { user } from "../http/routes/UserRoute";
+import dayjs from "dayjs";
 
 export class User {
 
@@ -26,10 +29,62 @@ export class User {
         this._role = role;
     }
 
+    public static async executeAuthentication(email: string, password: string) {
+        const user = await User.getByEmail(email);
+
+        const passwordMatch = compareSync(password, user.getPassword());
+
+        if (!passwordMatch) {
+            throw HttpException.UnauthorizedError("Email or password incorrect");
+        }
+
+        const token = sign({}, process.env.JWT_KEY, {
+            subject: user.getId(),
+            expiresIn: "20s"
+        });
+
+        return { token, user};
+    }
+
+    public static async generateRefreshToken(id: string) {
+        const expiresIn = dayjs().add(15, "second").unix();
+
+        const generateRefreshToken = await prisma.refreshToken.create({
+            data:{
+                userId: id,
+                expiresIn,
+            }
+        });
+
+        return generateRefreshToken;
+    }
+
     public static async get(id: string): Promise<User> {
         const userPrisma = await prisma.user.findUnique({
             where: {
                 id: id,
+            },
+        })
+
+        if (!userPrisma) {
+            throw HttpException.NotFoundError("User not found");
+        }
+
+        const user = new User(
+            userPrisma.id,
+            userPrisma.name,
+            userPrisma.email,
+            userPrisma.password,
+            userPrisma.role
+        );
+
+        return user;
+    }
+
+    public static async getByEmail(email: string): Promise<User> {
+        const userPrisma = await prisma.user.findUnique({
+            where: {
+                email: email,
             },
         })
 
@@ -112,26 +167,26 @@ export class User {
     }
 
     public async update(name?: string | undefined, email?: string | undefined, password?: string | undefined, role?: string | undefined): Promise<User> {
-            let user = await prisma.user.update({
-                where: {
-                    id: this.getId(),
-                },
-                data: {
-                    name: (typeof name == "string") ? name : this.getName(),
-                    email: (typeof email == "string") ? email : this.getEmail(),
-                    password: (typeof password == "string") ? hashSync(password, 10) : this.getPassword(),
-                    role: ['STUDENT', 'PROFESSOR'].includes(role) ? (role == 'STUDENT' ? Role.STUDENT : Role.PROFESSOR) : this.getRole() == 'STUDENT' ? Role.STUDENT : Role.PROFESSOR,
-                },
-            })
+        let user = await prisma.user.update({
+            where: {
+                id: this.getId(),
+            },
+            data: {
+                name: (typeof name == "string") ? name : this.getName(),
+                email: (typeof email == "string") ? email : this.getEmail(),
+                password: (typeof password == "string") ? hashSync(password, 10) : this.getPassword(),
+                role: ['STUDENT', 'PROFESSOR'].includes(role) ? (role == 'STUDENT' ? Role.STUDENT : Role.PROFESSOR) : this.getRole() == 'STUDENT' ? Role.STUDENT : Role.PROFESSOR,
+            },
+        })
 
-            this.setName(user.name);
-            this.setEmail(user.email);
-            this.setPassword(user.password);
-            this.setRole(user.role);
-            return this;
+        this.setName(user.name);
+        this.setEmail(user.email);
+        this.setPassword(user.password);
+        this.setRole(user.role);
+        return this;
     }
 
-    public async delete(): Promise<string>{
+    public async delete(): Promise<string> {
         let user = await prisma.user.delete({
             where: {
                 id: this.getId(),
@@ -140,6 +195,7 @@ export class User {
 
         return user.id;
     }
+
 
     private setId(id: string) {
         validateUuid(id);

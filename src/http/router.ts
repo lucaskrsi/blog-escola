@@ -3,6 +3,8 @@ import { home } from "./routes/HomeRoute";
 import { student } from "./routes/StudentRoute";
 import { professor } from "./routes/ProfessorRoute";
 import { user } from "./routes/UserRoute";
+import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
+import { authorizationVerifier } from "./middlewares/authorizationVerifier";
 
 
 const router: Router = Router();
@@ -15,7 +17,8 @@ router.delete("/students/:id", student.delete);
 router.put("/students/:id", student.update);
 router.post("/students", student.create);
 
-router.get("/users", user.getAll);
+router.post("/users/login", user.login);
+router.get("/users", [ensureAuthenticated, authorizationVerifier], user.getAll);
 router.get("/users/:id", user.get);
 router.delete("/users/:id", user.delete);
 router.put("/users/:id", user.update);
