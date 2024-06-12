@@ -1,23 +1,20 @@
+import { HttpException } from "./HttpException";
+
 export class  PrismaExceptionHandler{
     public static handleError(code: string){
         switch (code) {
             case "P1008":
-                throw new Error("Operations timed out after {time}");
-                break;
+                return HttpException.RequestTimeoutError("Operations timed out after {time}", code);
             case "P2000":
-                throw new Error("Provided value is too long");
-                break;
+                return HttpException.UnprocessableContentError("Provided value is too long", code);
             case "P2001":
-                throw new Error("Searched parameter does not exist");
+                return HttpException.BadRequestError("Searched parameter does not exist", code);
             case "P2002":
-                throw new Error("There is a unique constraint violation, a new user cannot be created with this email");
-                break;
+                return HttpException.ConflictError("There is a unique constraint violation, a new user cannot be created with this email", code);
             case "P2018":
-                throw new Error("The required connected records were not found. {details}");
-                break;
+                return HttpException.NotFoundError("The required connected records were not found. {details}", code);
             default:
-                throw new Error("An error occurred while trying to conclude the operation");
-                break;
+                return HttpException.InternalServerError("An error occurred while trying to conclude the operation", code);
         }
     }
 }

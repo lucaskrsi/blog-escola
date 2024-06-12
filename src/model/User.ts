@@ -3,6 +3,8 @@ import { prisma } from "../database/config/client"
 import { hashSync } from "bcrypt";
 import { validate as validateUuid } from "uuid";
 import { PrismaExceptionHandler } from "../Exceptions/PrismaExceptionHandler";
+import { HttpException } from "../Exceptions/HttpException";
+import { ErrorHandler } from "../Exceptions/ErrorHandler";
 
 export class User {
 
@@ -32,7 +34,7 @@ export class User {
         })
 
         if (!userPrisma) {
-            throw new Error("User not found");
+            throw HttpException.NotFoundError("User not found");
         }
 
         const user = new User(
@@ -69,11 +71,20 @@ export class User {
         let userPrisma = await User.get(id);
 
         if (!userPrisma) {
-            throw new Error("User not found");
+            throw HttpException.NotFoundError("User not found");
         }
 
-        userPrisma.update(name, email, password, role);
-        return userPrisma;
+        return userPrisma.update(name, email, password, role);
+    }
+
+    public static async delete(id: string): Promise<string> {
+        let userPrisma = await User.get(id);
+
+        if (!userPrisma) {
+            throw HttpException.NotFoundError("User not found");
+        }
+
+        return userPrisma.delete();
     }
 
     public async create() {
@@ -84,7 +95,7 @@ export class User {
         });
 
         if (userPrisma) {
-            throw new Error("User already exists");
+            throw HttpException.ConflictError("User already exists");
         }
 
         let user = await prisma.user.create({
@@ -101,7 +112,6 @@ export class User {
     }
 
     public async update(name?: string | undefined, email?: string | undefined, password?: string | undefined, role?: string | undefined): Promise<User> {
-        try {
             let user = await prisma.user.update({
                 where: {
                     id: this.getId(),
@@ -119,11 +129,16 @@ export class User {
             this.setPassword(user.password);
             this.setRole(user.role);
             return this;
-        } catch (e) {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-               PrismaExceptionHandler.handleError(e.code);
+    }
+
+    public async delete(): Promise<string>{
+        let user = await prisma.user.delete({
+            where: {
+                id: this.getId(),
             }
-        }
+        })
+
+        return user.id;
     }
 
     private setId(id: string) {

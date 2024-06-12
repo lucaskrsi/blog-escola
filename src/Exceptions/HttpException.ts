@@ -1,4 +1,5 @@
-class HttpException extends Error {
+export class HttpException extends Error {
+    public name: string = "HttpException";
     public errorCode: number | string = "H500";
     public statusCode: number = 500;
 
@@ -8,67 +9,75 @@ class HttpException extends Error {
         this.statusCode = statusCode;
     }
 
-    public static MultipleChoicesError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H300", 300);
+    public static handleError(error: HttpException) {
+        return error;
+    }
+
+    public static MultipleChoicesError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H300", 300);
     }
     
-    public static MovedPermanentlyError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H301", 301);
+    public static MovedPermanentlyError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H301", 301);
     }
     
-    public static BadRequestError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H400", 400);
+    public static BadRequestError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H400", 400);
     }
     
-    public static UnauthorizedError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H401", 401);
+    public static UnauthorizedError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H401", 401);
     }
     
-    public static ForbiddenError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H403", 403);
+    public static ForbiddenError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H403", 403);
     }
    
-    public static NotFoundError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H404", 404);
+    public static NotFoundError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H404", 404);
     }
     
-    public static MethodNotAllowedError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H405", 405);
+    public static MethodNotAllowedError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H405", 405);
     }
     
-    public static NotAccesptableError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H406", 406);
+    public static NotAccesptableError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H406", 406);
     }
     
-    public static RequestTimeoutError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H408", 408);
+    public static RequestTimeoutError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H408", 408);
     }
     
-    public static PayloadTooLargeError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H413", 413);
+    public static ConflictError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H409", 409);
     }
     
-    public static UnprocessableContentError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H422", 422);
+    public static PayloadTooLargeError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H413", 413);
     }
     
-    public static TooManyRequestsError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H429", 429);
+    public static UnprocessableContentError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H422", 422);
     }
     
-    public static InternalServerError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H500", 500);
+    public static TooManyRequestsError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H429", 429);
     }
     
-    public static NotImplementedError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H501", 501);
+    public static InternalServerError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H500", 500);
     }
     
-    public static BadGatewayError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H502", 502);
+    public static NotImplementedError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H501", 501);
     }
     
-    public static ServiceUnavaliableError(message?: string | undefined): HttpException {
-        return new HttpException(message, "H503", 503);
+    public static BadGatewayError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H502", 502);
+    }
+    
+    public static ServiceUnavaliableError(message?: string | undefined, errorCode?: string | number | undefined): HttpException {
+        return new HttpException(message, errorCode ?? "H503", 503);
     }   
 }

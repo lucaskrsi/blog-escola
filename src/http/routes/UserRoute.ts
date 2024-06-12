@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { User } from "../../model/User";
 import { z } from "zod";
+import { ErrorHandler } from "../../Exceptions/ErrorHandler";
 
 class UserRoute {
 
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response, next: NextFunction){
         const createBody = z.object({
             name: z.string().max(80),
             email: z.string().email(),
@@ -20,14 +21,11 @@ class UserRoute {
                 data: { userId: user.getId() },
             });
         } catch (e) {
-            console.log(e.message);
-            res.status(500).json({
-                message: e.message
-            });
+            next(e);
         }
     }
 
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response, next: NextFunction) {
         const createBody = z.object({
             name: z.optional(z.string().max(80)),
             email: z.optional(z.string().email()),
@@ -49,20 +47,28 @@ class UserRoute {
                 message: 'Updated successfully',
             });
         } catch (e) {
-            console.log(e.message);
-            res.status(500).json({
-                message: e.message
-            });
+            next(ErrorHandler.handler(e));
         }
     }
 
-    async delete(req: Request, res: Response) {
-        res.json({
-            message: 'Welcome',
+    async delete(req: Request, res: Response, next: NextFunction) {
+        const createParam = z.object({
+            id: z.string().max(36),
         });
+
+        const { id } = createParam.parse(req.params);
+        try {
+            const userId = await User.delete(id);
+            res.status(200).json({
+                data: { userId: userId },
+                message: 'Deleted successfully',
+            });
+        } catch (e) {
+            next(e);
+        }
     }
 
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response, next: NextFunction) {
         const createParam = z.object({
             id: z.string().max(36),
         });
@@ -79,14 +85,11 @@ class UserRoute {
                 },
             });
         } catch (e) {
-            console.log(e.message);
-            res.status(500).json({
-                message: e.message
-            });
+            next(e);
         }
     }
 
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const userList = await User.getAll();
             let list = userList.map(user => {
@@ -101,10 +104,7 @@ class UserRoute {
                 data: list,
             });
         } catch (e) {
-            console.log(e.message);
-            res.status(500).json({
-                message: e.message
-            });
+            next(e);
         }
     }
 

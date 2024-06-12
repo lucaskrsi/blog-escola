@@ -15,10 +15,11 @@ router.delete("/students/:id", student.delete);
 router.put("/students/:id", student.update);
 router.post("/students", student.create);
 
-router.post("/users", user.create);
-router.put("/users/:id", user.update);
 router.get("/users", user.getAll);
 router.get("/users/:id", user.get);
+router.delete("/users/:id", user.delete);
+router.put("/users/:id", user.update);
+router.post("/users", user.create);
 
 router.get("/professors", professor.getAll);
 router.get("/professors/:id", professor.get);

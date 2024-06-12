@@ -14,6 +14,7 @@ const client_1 = require("@prisma/client");
 const client_2 = require("../database/config/client");
 const bcrypt_1 = require("bcrypt");
 const uuid_1 = require("uuid");
+const HttpException_1 = require("../Exceptions/HttpException");
 class User {
     constructor(id = undefined, name, email, password, role) {
         if (typeof id !== "undefined") {
@@ -33,7 +34,7 @@ class User {
                 },
             });
             if (!userPrisma) {
-                throw new Error("User not found");
+                throw HttpException_1.HttpException.NotFoundError("User not found");
             }
             const user = new User(userPrisma.id, userPrisma.name, userPrisma.email, userPrisma.password, userPrisma.role);
             return user;
@@ -58,10 +59,18 @@ class User {
         return __awaiter(this, void 0, void 0, function* () {
             let userPrisma = yield User.get(id);
             if (!userPrisma) {
-                throw new Error("User not found");
+                throw HttpException_1.HttpException.NotFoundError("User not found");
             }
-            userPrisma.update(name, email, password, role);
-            return userPrisma;
+            return userPrisma.update(name, email, password, role);
+        });
+    }
+    static delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let userPrisma = yield User.get(id);
+            if (!userPrisma) {
+                throw HttpException_1.HttpException.NotFoundError("User not found");
+            }
+            return userPrisma.delete();
         });
     }
     create() {
@@ -72,7 +81,7 @@ class User {
                 },
             });
             if (userPrisma) {
-                throw new Error("User already exists");
+                throw HttpException_1.HttpException.ConflictError("User already exists");
             }
             let user = yield client_2.prisma.user.create({
                 data: {
@@ -104,6 +113,16 @@ class User {
             this.setPassword(user.password);
             this.setRole(user.role);
             return this;
+        });
+    }
+    delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let user = yield client_2.prisma.user.delete({
+                where: {
+                    id: this.getId(),
+                }
+            });
+            return user.id;
         });
     }
     setId(id) {
