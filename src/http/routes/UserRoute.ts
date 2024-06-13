@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../../model/User";
 import { z } from "zod";
 import { ErrorHandler } from "../../Exceptions/ErrorHandler";
+import { TokenUser } from "../../controller/TokenUser";
 
 class UserRoute {
 
@@ -14,12 +15,32 @@ class UserRoute {
 
             const { email, password } = createBody.parse(req.body);
             const { token, user } = await User.executeAuthentication(email, password);
-            const refreshToken = await User.generateRefreshToken(user.getId());
+            const refreshToken = await TokenUser.generateRefreshToken(user.getId());
             res.status(201).json({
                 data: {
                     token,
                     refreshToken,
                 }
+            });
+        } catch (e) {
+            next(ErrorHandler.handler(e));
+        }
+    }
+
+    async refreshToken(req: Request, res: Response, next: NextFunction) {
+        try {
+            const createBody = z.object({
+                refreshTokenId: z.string().max(36),
+            });
+
+            const { refreshTokenId } = createBody.parse(req.body);
+
+            const { token, newRefreshToken } = await TokenUser.refreshToken(refreshTokenId);
+            res.status(201).json({
+                data: {
+                    token,
+                    newRefreshToken: newRefreshToken,
+                },
             });
         } catch (e) {
             next(ErrorHandler.handler(e));

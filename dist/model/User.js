@@ -8,9 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const client_1 = require("@prisma/client");
@@ -18,8 +15,7 @@ const client_2 = require("../database/config/client");
 const bcrypt_1 = require("bcrypt");
 const uuid_1 = require("uuid");
 const HttpException_1 = require("../Exceptions/HttpException");
-const jsonwebtoken_1 = require("jsonwebtoken");
-const dayjs_1 = __importDefault(require("dayjs"));
+const TokenUser_1 = require("../controller/TokenUser");
 class User {
     constructor(id = undefined, name, email, password, role) {
         if (typeof id !== "undefined") {
@@ -38,23 +34,8 @@ class User {
             if (!passwordMatch) {
                 throw HttpException_1.HttpException.UnauthorizedError("Email or password incorrect");
             }
-            const token = (0, jsonwebtoken_1.sign)({}, process.env.JWT_KEY, {
-                subject: user.getId(),
-                expiresIn: "20s"
-            });
+            const token = TokenUser_1.TokenUser.generateToken(user.getId());
             return { token, user };
-        });
-    }
-    static generateRefreshToken(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const expiresIn = (0, dayjs_1.default)().add(15, "second").unix();
-            const generateRefreshToken = yield client_2.prisma.refreshToken.create({
-                data: {
-                    userId: id,
-                    expiresIn,
-                }
-            });
-            return generateRefreshToken;
         });
     }
     static get(id) {

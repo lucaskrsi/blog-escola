@@ -18,6 +18,7 @@ router.put("/students/:id", student.update);
 router.post("/students", student.create);
 
 router.post("/users/login", user.login);
+router.post("/users/refresh-token", user.refreshToken);
 router.get("/users", [ensureAuthenticated, authorizationVerifier], user.getAll);
 router.get("/users/:id", user.get);
 router.delete("/users/:id", user.delete);

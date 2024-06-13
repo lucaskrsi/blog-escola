@@ -13,6 +13,7 @@ exports.user = void 0;
 const User_1 = require("../../model/User");
 const zod_1 = require("zod");
 const ErrorHandler_1 = require("../../Exceptions/ErrorHandler");
+const TokenUser_1 = require("../../controller/TokenUser");
 class UserRoute {
     login(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -23,12 +24,32 @@ class UserRoute {
                 });
                 const { email, password } = createBody.parse(req.body);
                 const { token, user } = yield User_1.User.executeAuthentication(email, password);
-                const refreshToken = yield User_1.User.generateRefreshToken(user.getId());
+                const refreshToken = yield TokenUser_1.TokenUser.generateRefreshToken(user.getId());
                 res.status(201).json({
                     data: {
                         token,
                         refreshToken,
                     }
+                });
+            }
+            catch (e) {
+                next(ErrorHandler_1.ErrorHandler.handler(e));
+            }
+        });
+    }
+    refreshToken(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const createBody = zod_1.z.object({
+                    refreshTokenId: zod_1.z.string().max(36),
+                });
+                const { refreshTokenId } = createBody.parse(req.body);
+                const { token, newRefreshToken } = yield TokenUser_1.TokenUser.refreshToken(refreshTokenId);
+                res.status(201).json({
+                    data: {
+                        token,
+                        newRefreshToken: newRefreshToken,
+                    },
                 });
             }
             catch (e) {

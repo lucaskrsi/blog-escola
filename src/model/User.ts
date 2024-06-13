@@ -8,6 +8,7 @@ import { ErrorHandler } from "../Exceptions/ErrorHandler";
 import { sign } from "jsonwebtoken";
 import { user } from "../http/routes/UserRoute";
 import dayjs from "dayjs";
+import { TokenUser } from "../controller/TokenUser";
 
 export class User {
 
@@ -38,25 +39,9 @@ export class User {
             throw HttpException.UnauthorizedError("Email or password incorrect");
         }
 
-        const token = sign({}, process.env.JWT_KEY, {
-            subject: user.getId(),
-            expiresIn: "20s"
-        });
+        const token = TokenUser.generateToken(user.getId());
 
         return { token, user};
-    }
-
-    public static async generateRefreshToken(id: string) {
-        const expiresIn = dayjs().add(15, "second").unix();
-
-        const generateRefreshToken = await prisma.refreshToken.create({
-            data:{
-                userId: id,
-                expiresIn,
-            }
-        });
-
-        return generateRefreshToken;
     }
 
     public static async get(id: string): Promise<User> {
