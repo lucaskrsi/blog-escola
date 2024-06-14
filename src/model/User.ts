@@ -39,9 +39,9 @@ export class User {
             throw HttpException.UnauthorizedError("Email or password incorrect");
         }
 
-        const token = TokenUser.generateToken(user.getId());
+        const token = await TokenUser.generateToken(user.getId());
 
-        return { token, user};
+        return { token, user };
     }
 
     public static async get(id: string): Promise<User> {
@@ -124,7 +124,7 @@ export class User {
             throw HttpException.NotFoundError("User not found");
         }
 
-        return userPrisma.delete();
+        return await userPrisma.delete();
     }
 
     public async create() {
@@ -178,7 +178,7 @@ export class User {
             }
         })
 
-        return user.id;
+        return user.id.toString();
     }
 
 

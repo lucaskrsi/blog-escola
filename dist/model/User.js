@@ -34,7 +34,7 @@ class User {
             if (!passwordMatch) {
                 throw HttpException_1.HttpException.UnauthorizedError("Email or password incorrect");
             }
-            const token = TokenUser_1.TokenUser.generateToken(user.getId());
+            const token = yield TokenUser_1.TokenUser.generateToken(user.getId());
             return { token, user };
         });
     }
@@ -96,7 +96,7 @@ class User {
             if (!userPrisma) {
                 throw HttpException_1.HttpException.NotFoundError("User not found");
             }
-            return userPrisma.delete();
+            return yield userPrisma.delete();
         });
     }
     create() {
@@ -148,7 +148,7 @@ class User {
                     id: this.getId(),
                 }
             });
-            return user.id;
+            return user.id.toString();
         });
     }
     setId(id) {

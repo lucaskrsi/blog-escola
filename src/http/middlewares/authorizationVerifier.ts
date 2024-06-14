@@ -1,16 +1,22 @@
 import { Request, Response, NextFunction } from "express";
 import { decode } from "jsonwebtoken";
 import { HttpException } from "../../Exceptions/HttpException";
+import { TokenUser } from "../../controller/TokenUser";
+import { ErrorHandler } from "../../Exceptions/ErrorHandler";
 
-export function authorizationVerifier(req: Request, res: Response, next: NextFunction){
-    const authToken = req.headers.authorization;
-    const [, token] = authToken.split(" ");
-    const decodedToken = decode(token);
-    throw HttpException.BadGatewayError(decodedToken.toString());
-    // if (user.getRole() === 'PROFESSOR') {
-    //     next();
-    // } else {
-    //     res.status(403).send('Forbidden');
-    // }
-    
+export async function authorizationVerifier(req: Request, res: Response, next: NextFunction) {
+    try {
+
+        const authToken = req.headers.authorization;
+        const [, token] = authToken.split(" ");
+        const role = await TokenUser.validateToken(token);
+        if (role === 'PROFESSOR') {
+            return next();
+        } else {
+            throw HttpException.ForbiddenError('Access forbidden');
+        }
+    } catch (e) {
+        next(ErrorHandler.handler(e));
+    }
+
 }

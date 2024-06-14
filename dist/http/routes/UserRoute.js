@@ -155,7 +155,9 @@ class UserRoute {
                     };
                 });
                 res.status(201).json({
-                    data: list,
+                    data: {
+                        users: list,
+                    },
                 });
             }
             catch (e) {

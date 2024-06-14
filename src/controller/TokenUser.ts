@@ -5,35 +5,34 @@ import { sign, verify } from "jsonwebtoken";
 import dayjs from "dayjs";
 import { create } from "domain";
 import { z } from "zod";
+import { User } from "../model/User";
 export class TokenUser {
 
     public static async generateToken(userId: string) {
         return sign({}, process.env.JWT_KEY, {
             subject: userId,
-            expiresIn: "20s"
+            expiresIn: "30s"
         });
     }
 
-    public static async validateToken(token:string) : Promise<boolean>{
+    public static async validateToken(token: string) {
         const jwtPayload = verify(token, process.env.JWT_KEY);
 
         const createPayload = z.object({
-            userId : z.string().max(36),
+            sub: z.string().max(36),
         });
 
-        const {userId} = createPayload.parse(jwtPayload);
+        const { sub } = createPayload.parse(jwtPayload);
 
-        const userPrisma = await prisma.user.findFirst({
-            where:{
-                id: userId,
-            }
-        });
+        const userPrisma = await User.get(sub);
 
-        if(!userPrisma){
+        if (!userPrisma) {
             throw HttpException.UnauthorizedError("Token inválido");
         };
 
-        return true;
+        const role = userPrisma.getRole();
+
+        return role;
     }
 
     public static async refreshToken(refreshToken) {
@@ -76,7 +75,7 @@ export class TokenUser {
         });
 
         const generateRefreshToken = await prisma.refreshToken.create({
-            data:{
+            data: {
                 userId: userId,
                 expiresIn,
             }
@@ -87,7 +86,7 @@ export class TokenUser {
 
     public static checkTokenExpired(expiresIn: number): boolean {
         const tokenExpired = dayjs().isAfter(dayjs.unix(expiresIn));
-        if(tokenExpired){
+        if (tokenExpired) {
             return true;
         }
         return false;

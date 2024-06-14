@@ -28,15 +28,16 @@ model User {
 model Student {
   id        String   @id @default(uuid())
   birthDate DateTime
+  ra        String   @unique
   userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   class     Class[]
 }
 
 model Professor {
   id     String @id @default(uuid())
   name   String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
   Post   Post[]
 }
@@ -67,7 +68,7 @@ model Class {
 model RefreshToken {
   id        String   @id @default(uuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   expiresIn Int
   createdAt DateTime @default(now())
 

@@ -17,13 +17,31 @@ const HttpException_1 = require("../Exceptions/HttpException");
 const client_1 = require("../database/config/client");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const dayjs_1 = __importDefault(require("dayjs"));
+const zod_1 = require("zod");
+const User_1 = require("../model/User");
 class TokenUser {
     static generateToken(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             return (0, jsonwebtoken_1.sign)({}, process.env.JWT_KEY, {
                 subject: userId,
-                expiresIn: "20s"
+                expiresIn: "30s"
             });
+        });
+    }
+    static validateToken(token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jwtPayload = (0, jsonwebtoken_1.verify)(token, process.env.JWT_KEY);
+            const createPayload = zod_1.z.object({
+                sub: zod_1.z.string().max(36),
+            });
+            const { sub } = createPayload.parse(jwtPayload);
+            const userPrisma = yield User_1.User.get(sub);
+            if (!userPrisma) {
+                throw HttpException_1.HttpException.UnauthorizedError("Token inválido");
+            }
+            ;
+            const role = userPrisma.getRole();
+            return role;
         });
     }
     static refreshToken(refreshToken) {
@@ -38,7 +56,7 @@ class TokenUser {
             }
             const userId = refreshTokenPrisma.userId;
             const token = yield TokenUser.generateToken(userId);
-            const refreshTokenExpired = (0, dayjs_1.default)().isAfter(dayjs_1.default.unix(refreshTokenPrisma.expiresIn));
+            const refreshTokenExpired = TokenUser.checkTokenExpired(refreshTokenPrisma.expiresIn);
             if (refreshTokenExpired) {
                 yield client_1.prisma.refreshToken.deleteMany({
                     where: {
@@ -53,7 +71,7 @@ class TokenUser {
     }
     static generateRefreshToken(userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const expiresIn = (0, dayjs_1.default)().add(15, "second").unix();
+            const expiresIn = (0, dayjs_1.default)().add(1, "hour").unix();
             yield client_1.prisma.refreshToken.deleteMany({
                 where: {
                     userId: userId,
@@ -67,6 +85,13 @@ class TokenUser {
             });
             return generateRefreshToken;
         });
+    }
+    static checkTokenExpired(expiresIn) {
+        const tokenExpired = (0, dayjs_1.default)().isAfter(dayjs_1.default.unix(expiresIn));
+        if (tokenExpired) {
+            return true;
+        }
+        return false;
     }
 }
 exports.TokenUser = TokenUser;
