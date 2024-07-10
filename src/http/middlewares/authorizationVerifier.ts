@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { decode } from "jsonwebtoken";
 import { HttpException } from "../../Exceptions/HttpException";
-import { TokenUser } from "../../controller/TokenUser";
+import { TokenUser } from "../../utils/TokenUser";
 import { ErrorHandler } from "../../Exceptions/ErrorHandler";
 
 export async function authorizationVerifier(req: Request, res: Response, next: NextFunction) {

@@ -1,29 +1,23 @@
 import { Router } from "express";
-import { home } from "./routes/HomeRoute";
-import { student } from "./routes/StudentRoute";
-import { professor } from "./routes/ProfessorRoute";
-import { user } from "./routes/UserRoute";
+import { home } from "./controllers/HomeRoute";
+import { student } from "./controllers/StudentRoute";
+import { professor } from "./controllers/ProfessorRoute";
+import { userRoutes } from "./controllers/User.routes";
 import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
 import { authorizationVerifier } from "./middlewares/authorizationVerifier";
 
 
+
 const router: Router = Router();
 
-router.get("/", home.paginaInicial);
+
+userRoutes(router);
 
 router.get("/students", [ensureAuthenticated, authorizationVerifier], student.getAll);
 router.get("/students/:id", [ensureAuthenticated], student.get);
 router.delete("/students/:id", [ensureAuthenticated], student.delete);
 router.put("/students/:id", [ensureAuthenticated], student.update);
 router.post("/students", student.create);
-
-router.post("/users/login", user.login);
-router.post("/users/refresh-token", user.refreshToken);
-router.get("/users", [ensureAuthenticated, authorizationVerifier], user.getAll);
-router.get("/users/:id", [ensureAuthenticated, authorizationVerifier], user.get);
-router.delete("/users/:id", [ensureAuthenticated, authorizationVerifier], user.delete);
-router.put("/users/:id", [ensureAuthenticated, authorizationVerifier], user.update);
-router.post("/users", [ensureAuthenticated, authorizationVerifier], user.create);
 
 router.get("/professors", [ensureAuthenticated, authorizationVerifier],  professor.getAll);
 router.get("/professors/:id", [ensureAuthenticated, authorizationVerifier], professor.get);

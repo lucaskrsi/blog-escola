@@ -5,17 +5,19 @@ import { sign, verify } from "jsonwebtoken";
 import dayjs from "dayjs";
 import { create } from "domain";
 import { z } from "zod";
-import { User } from "../model/User";
+import { User } from "../models/User";
+import { UserRepository } from "../repositories/PrismaRepository/User.repository";
+import { makeUserRepository } from "../repositories/factory/makeUserRepository";
 export class TokenUser {
 
-    public static async generateToken(userId: string) {
+    public static async generateToken(userId: string) : Promise<string> {
         return sign({}, process.env.JWT_KEY, {
             subject: userId,
             expiresIn: "30s"
         });
     }
 
-    public static async validateToken(token: string) {
+    public static async validateToken(token: string) : Promise<string> {
         const jwtPayload = verify(token, process.env.JWT_KEY);
 
         const createPayload = z.object({
@@ -24,7 +26,8 @@ export class TokenUser {
 
         const { sub } = createPayload.parse(jwtPayload);
 
-        const userPrisma = await User.get(sub);
+        const userRepository = makeUserRepository();
+        const userPrisma = await userRepository.get(sub);
 
         if (!userPrisma) {
             throw HttpException.UnauthorizedError("Token inválido");
