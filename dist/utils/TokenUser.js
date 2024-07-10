@@ -18,13 +18,13 @@ const client_1 = require("../database/config/client");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const dayjs_1 = __importDefault(require("dayjs"));
 const zod_1 = require("zod");
-const User_1 = require("../model/User");
+const makeUserRepository_1 = require("../repositories/factory/makeUserRepository");
 class TokenUser {
     static generateToken(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             return (0, jsonwebtoken_1.sign)({}, process.env.JWT_KEY, {
                 subject: userId,
-                expiresIn: "30s"
+                expiresIn: "120s"
             });
         });
     }
@@ -35,7 +35,8 @@ class TokenUser {
                 sub: zod_1.z.string().max(36),
             });
             const { sub } = createPayload.parse(jwtPayload);
-            const userPrisma = yield User_1.User.get(sub);
+            const userRepository = (0, makeUserRepository_1.makeUserRepository)();
+            const userPrisma = yield userRepository.get(sub);
             if (!userPrisma) {
                 throw HttpException_1.HttpException.UnauthorizedError("Token inválido");
             }

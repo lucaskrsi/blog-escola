@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { HttpException } from "../../Exceptions/HttpException";
+import { HttpException } from "../../exceptions/HttpException";
 import { verify } from "jsonwebtoken";
 
 export function ensureAuthenticated(req: Request, res: Response, next: NextFunction){

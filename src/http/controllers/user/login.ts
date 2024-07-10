@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
-import { ErrorHandler } from "../../../Exceptions/ErrorHandler";
 import { makeUserRepository } from "../../../repositories/factory/makeUserRepository";
 import { TokenUser } from "../../../utils/TokenUser";
+import { ErrorHandler } from "../../../exceptions/ErrorHandler";
 
 export async function login(req: Request, res: Response, next: NextFunction) {
     try {

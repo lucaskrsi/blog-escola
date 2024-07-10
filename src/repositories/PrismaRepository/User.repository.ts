@@ -1,4 +1,4 @@
-import { HttpException } from "../../Exceptions/HttpException";
+import { HttpException } from "../../exceptions/HttpException";
 import { prisma } from "../../database/config/client";
 import { IUser } from "../../models/interfaces/User.interface";
 import { IUserRepository } from "../interfaces/User.repository.interface";
@@ -69,7 +69,11 @@ export class UserRepository implements IUserRepository {
     }
 
     async create(user: IUser): Promise<IUser> {
-        let userAlreadyExists = await this.getByEmail(user.getEmail());
+        let userAlreadyExists = await prisma.user.findUnique({
+            where: {
+                email: user.getEmail(),
+            },
+        })
 
         if (userAlreadyExists) {
             throw HttpException.ConflictError("User already exists");

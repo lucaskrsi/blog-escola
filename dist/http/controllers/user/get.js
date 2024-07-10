@@ -9,27 +9,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authorizationVerifier = void 0;
-const TokenUser_1 = require("../../utils/TokenUser");
-const User_1 = require("../../models/User");
-const HttpException_1 = require("../../exceptions/HttpException");
-const ErrorHandler_1 = require("../../exceptions/ErrorHandler");
-function authorizationVerifier(req, res, next) {
+exports.get = void 0;
+const zod_1 = require("zod");
+const makeUserRepository_1 = require("../../../repositories/factory/makeUserRepository");
+const ErrorHandler_1 = require("../../../exceptions/ErrorHandler");
+function get(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const authToken = req.headers.authorization;
-            const [, token] = authToken.split(" ");
-            const role = yield TokenUser_1.TokenUser.validateToken(token);
-            if (role === User_1.User.professorRole) {
-                return next();
-            }
-            else {
-                throw HttpException_1.HttpException.ForbiddenError('Access forbidden');
-            }
+            const createParam = zod_1.z.object({
+                id: zod_1.z.string().max(36),
+            });
+            const { id } = createParam.parse(req.params);
+            const userRepository = (0, makeUserRepository_1.makeUserRepository)();
+            const user = yield userRepository.get(id);
+            res.status(200).json({
+                data: {
+                    id: user.getId(),
+                    name: user.getName(),
+                    email: user.getEmail(),
+                    role: user.getRole(),
+                },
+            });
         }
         catch (e) {
             next(ErrorHandler_1.ErrorHandler.handler(e));
         }
     });
 }
-exports.authorizationVerifier = authorizationVerifier;
+exports.get = get;

@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
+import { ZodError } from "zod";
+import { ZodExceptionHandler } from "./ZodExceptionHandler";
 import { HttpException } from "./HttpException";
 import { PrismaExceptionHandler } from "./PrismaExceptionHandler";
-import { ZodError } from "zod";
-import {ZodExceptionHandler } from "./ZodExceptionHandler";
 
 export class ErrorHandler {
     public static handler(error: Error){

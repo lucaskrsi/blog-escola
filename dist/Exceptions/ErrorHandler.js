@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ErrorHandler = void 0;
 const client_1 = require("@prisma/client");
-const HttpException_1 = require("./HttpException");
-const PrismaExceptionHandler_1 = require("./PrismaExceptionHandler");
 const zod_1 = require("zod");
 const ZodExceptionHandler_1 = require("./ZodExceptionHandler");
+const HttpException_1 = require("./HttpException");
+const PrismaExceptionHandler_1 = require("./PrismaExceptionHandler");
 class ErrorHandler {
     static handler(error) {
         if (error instanceof zod_1.ZodError) {

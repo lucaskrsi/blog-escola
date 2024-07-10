@@ -9,6 +9,9 @@ export class User implements IUser {
     private _password: string
     private _role: string
     public static userList: IUser[];
+    public static studentRole = "STUDENT";
+    public static professorRole = "PROFESSOR";
+
 
     public constructor(name: string, email: string, password: string, role: string, id?: string) {
         if (typeof id !== "undefined") {
@@ -63,10 +66,10 @@ export class User implements IUser {
     }
 
     public isProfessor(): boolean {
-        return (this.getRole() == 'PROFESSOR');
+        return (this.getRole() == User.professorRole);
     }
 
     public isStudent(): boolean {
-        return (this.getRole() == 'STUDENT');
+        return (this.getRole() == User.studentRole);
     }
 }

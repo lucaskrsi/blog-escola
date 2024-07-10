@@ -14,7 +14,7 @@ const client_1 = require("@prisma/client");
 const client_2 = require("../database/config/client");
 const bcrypt_1 = require("bcrypt");
 const uuid_1 = require("uuid");
-const HttpException_1 = require("../Exceptions/HttpException");
+const HttpException_1 = require("../exceptions/HttpException");
 const TokenUser_1 = require("../controller/TokenUser");
 class User {
     constructor(id = undefined, name, email, password, role) {

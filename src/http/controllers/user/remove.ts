@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
-import { ErrorHandler } from "../../../Exceptions/ErrorHandler";
 import { makeUserRepository } from "../../../repositories/factory/makeUserRepository";
+import { ErrorHandler } from "../../../exceptions/ErrorHandler";
 
 export async function remove(req: Request, res: Response, next: NextFunction) {
     try {

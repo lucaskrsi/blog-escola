@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.user = void 0;
 const User_1 = require("../../model/User");
 const zod_1 = require("zod");
-const ErrorHandler_1 = require("../../Exceptions/ErrorHandler");
+const ErrorHandler_1 = require("../../exceptions/ErrorHandler");
 const TokenUser_1 = require("../../controller/TokenUser");
 class UserRoute {
     login(req, res, next) {

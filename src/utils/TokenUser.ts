@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { HttpException } from "../Exceptions/HttpException";
+import { HttpException } from "../exceptions/HttpException";
 import { prisma } from "../database/config/client";
 import { sign, verify } from "jsonwebtoken";
 import dayjs from "dayjs";
@@ -13,7 +13,7 @@ export class TokenUser {
     public static async generateToken(userId: string) : Promise<string> {
         return sign({}, process.env.JWT_KEY, {
             subject: userId,
-            expiresIn: "30s"
+            expiresIn: "120s"
         });
     }
 

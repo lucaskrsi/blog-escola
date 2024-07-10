@@ -9,27 +9,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authorizationVerifier = void 0;
-const TokenUser_1 = require("../../utils/TokenUser");
-const User_1 = require("../../models/User");
-const HttpException_1 = require("../../exceptions/HttpException");
-const ErrorHandler_1 = require("../../exceptions/ErrorHandler");
-function authorizationVerifier(req, res, next) {
+exports.create = void 0;
+const zod_1 = require("zod");
+const User_1 = require("../../../models/User");
+const makeUserRepository_1 = require("../../../repositories/factory/makeUserRepository");
+const ErrorHandler_1 = require("../../../exceptions/ErrorHandler");
+function create(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const authToken = req.headers.authorization;
-            const [, token] = authToken.split(" ");
-            const role = yield TokenUser_1.TokenUser.validateToken(token);
-            if (role === User_1.User.professorRole) {
-                return next();
-            }
-            else {
-                throw HttpException_1.HttpException.ForbiddenError('Access forbidden');
-            }
+            const createBody = zod_1.z.object({
+                name: zod_1.z.string().max(80),
+                email: zod_1.z.string().email(),
+                password: zod_1.z.string(),
+                role: zod_1.z.string()
+            });
+            const { name, email, password, role } = createBody.parse(req.body);
+            const userRepository = (0, makeUserRepository_1.makeUserRepository)();
+            const user = yield userRepository.create(new User_1.User(name, email, password, role));
+            res.status(201).json({
+                data: { userId: user.getId() },
+            });
         }
         catch (e) {
             next(ErrorHandler_1.ErrorHandler.handler(e));
         }
     });
 }
-exports.authorizationVerifier = authorizationVerifier;
+exports.create = create;

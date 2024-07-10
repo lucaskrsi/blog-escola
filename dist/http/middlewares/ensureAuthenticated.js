@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ensureAuthenticated = void 0;
-const HttpException_1 = require("../../Exceptions/HttpException");
+const HttpException_1 = require("../../exceptions/HttpException");
 const jsonwebtoken_1 = require("jsonwebtoken");
 function ensureAuthenticated(req, res, next) {
     const authToken = req.headers.authorization;

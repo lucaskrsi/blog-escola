@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { User } from "../../../models/User";
-import { makeUserRepository } from "../../../repositories/factory/makeUserRepository";
+import { makeStudentRepository } from "../../../repositories/factory/makeStudentRepository";
+import { Student } from "../../../models/Student";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
 
 export async function create(req: Request, res: Response, next: NextFunction) {
@@ -10,16 +11,17 @@ export async function create(req: Request, res: Response, next: NextFunction) {
             name: z.string().max(80),
             email: z.string().email(),
             password: z.string(),
-            role: z.string()
+            birthDate: z.string(),
+            ra: z.string()
         });
 
-        const { name, email, password, role } = createBody.parse(req.body);
+        const { name, email, password, birthDate, ra } = createBody.parse(req.body);
         
-        const userRepository = makeUserRepository();
+        const studentRepository = makeStudentRepository();
 
-        const user = await userRepository.create(new User(name, email, password, role));
+        const student = await studentRepository.create(new Student(new User(name, email, password, User.studentRole), birthDate, ra));
         res.status(201).json({
-            data: { userId: user.getId() },
+            data: { userId: student.getId() },
         });
     } catch (e) {
         next(ErrorHandler.handler(e));

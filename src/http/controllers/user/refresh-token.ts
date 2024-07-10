@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
-import { ErrorHandler } from "../../../Exceptions/ErrorHandler";
 import { TokenUser } from "../../../utils/TokenUser";
+import { ErrorHandler } from "../../../exceptions/ErrorHandler";
 
 export async function refreshToken(req: Request, res: Response, next: NextFunction) {
     try {
