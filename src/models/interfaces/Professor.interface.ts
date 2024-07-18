@@ -7,6 +7,6 @@ export interface IProfessor {
     getId(): string    
     setUserId(id: string)
     getUserId(): string 
-    getBirthDate(): string    
-    getRa(): string
+    setProfessorNumber(professorNumber: number)
+    getProfessorNumber(): number    
 }

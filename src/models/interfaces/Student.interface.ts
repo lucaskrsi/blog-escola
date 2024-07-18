@@ -8,5 +8,7 @@ export interface IStudent {
     setUserId(id: string)
     getUserId(): string 
     getBirthDate(): string    
+    setBirthDate(birthDate : string)    
     getRa(): string
+    setRa(ra : string)
 }

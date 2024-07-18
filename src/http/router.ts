@@ -3,8 +3,10 @@ import { Router } from "express";
 // import { student } from "./controllers/StudentRoute";
 // import { professor } from "./controllers/ProfessorRoute";
 import { userRoutes } from "./controllers/User.routes";
+import { studentRoutes } from "./controllers/Student.routes";
 import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
 import { authorizationVerifier } from "./middlewares/authorizationVerifier";
+import { professorRoutes } from "./controllers/Professor.routes";
 
 
 
@@ -12,6 +14,8 @@ const router: Router = Router();
 
 
 userRoutes(router);
+studentRoutes(router);
+professorRoutes(router);
 
 // router.get("/students", [ensureAuthenticated, authorizationVerifier], student.getAll);
 // router.get("/students/:id", [ensureAuthenticated], student.get);

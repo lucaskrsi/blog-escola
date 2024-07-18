@@ -1,24 +1,22 @@
 import { validate as validateUuid } from "uuid";
 import { IUser } from "./interfaces/User.interface";
-import { IStudent } from "./interfaces/Student.interface";
+import { IProfessor } from "./interfaces/Professor.interface";
 
-export class Student implements IStudent {
+export class Professor implements IProfessor {
 
     private _id?: string;
     private _userId?: string;
-    private _birthDate: string
-    private _ra: string
+    private _professorNumber: number
     public user: IUser;
-    public static studentList: IStudent[];
+    public static professorList: IProfessor[];
 
-    public constructor(user: IUser, birthDate: string, ra: string, id?: string) {
+    public constructor(user: IUser, professorNumber: number, id?: string) {
         if (typeof id !== "undefined") {
             validateUuid(id);
         }
         this._id = id;
         this._userId = user.getId();
-        this._birthDate = birthDate;
-        this._ra = ra;
+        this._professorNumber = professorNumber;
         this.user = user
     }
 
@@ -38,19 +36,11 @@ export class Student implements IStudent {
         return this._userId;
     }
 
-    public setBirthDate(birthDate: string){
-        this._birthDate = birthDate;
+    public setProfessorNumber(professorNumber: number){
+        this._professorNumber = professorNumber;
     }
     
-    public getBirthDate(): string{
-        return this._birthDate;
-    }
-    
-    public setRa(ra: string){
-        this._ra = ra;
-    }
-    
-    public getRa(): string{
-        return this._ra;
+    public getProfessorNumber(): number{
+        return this._professorNumber;
     }
 }

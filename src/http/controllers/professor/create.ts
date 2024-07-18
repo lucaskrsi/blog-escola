@@ -1,29 +1,28 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { User } from "../../../models/User";
-import { makeStudentRepository } from "../../../repositories/factory/makeStudentRepository";
-import { Student } from "../../../models/Student";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
+import { makeProfessorRepository } from "../../../repositories/factory/makeProfessorRepository";
+import { Professor } from "../../../models/Professor";
 
 export async function create(req: Request, res: Response, next: NextFunction) {
     try {
         const createBody = z.object({
-            birthDate: z.string(),
-            ra: z.string(),
+            professorNumber: z.number(),
             name: z.string().max(80),
             email: z.string().email(),
             password: z.string(),
         });
 
-        const { name, email, password, birthDate, ra } = createBody.parse(req.body);
+        const { name, email, password, professorNumber } = createBody.parse(req.body);
 
-        const studentRepository = makeStudentRepository();
+        const professorRepository = makeProfessorRepository();
 
-        const student = await studentRepository.create(new Student(new User(name, email, password, User.studentRole), birthDate, ra));
+        const professor = await professorRepository.create(new Professor(new User(name, email, password, User.professorRole), professorNumber));
         res.status(201).json({
             data: { 
-                studentId: student.getId(),
-                userId: student.getUserId(),
+                professorId: professor.getId(),
+                userId: professor.getUserId(),
              },
         });
     } catch (e) {
