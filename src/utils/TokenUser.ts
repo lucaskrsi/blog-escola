@@ -13,7 +13,7 @@ export class TokenUser {
     public static async generateToken(userId: string) : Promise<string> {
         return sign({}, process.env.JWT_KEY, {
             subject: userId,
-            expiresIn: "120s"
+            expiresIn: "18000000s"
         });
     }
 

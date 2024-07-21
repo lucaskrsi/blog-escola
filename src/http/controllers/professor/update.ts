@@ -1,13 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
-import { makeStudentRepository } from "../../../repositories/factory/makeStudentRepository";
+import { makeProfessorRepository } from "../../../repositories/factory/makeProfessorRepository";
 
 export async function update(req: Request, res: Response, next: NextFunction) {
     try {
         const createBody = z.object({
-            birthDate: z.optional(z.string()),
-            ra: z.optional(z.string()),
+            professorNumber: z.optional(z.number()),
             name: z.optional(z.string().max(80)),
             email: z.optional(z.string().email()),
             password: z.optional(z.string()),
@@ -17,13 +16,13 @@ export async function update(req: Request, res: Response, next: NextFunction) {
             id: z.string().max(36),
         })
 
-        const { birthDate, ra, name, email, password } = createBody.parse(req.body);
+        const { professorNumber, name, email, password } = createBody.parse(req.body);
         const { id } = createParam.parse(req.params);
 
-        const studentRepository = makeStudentRepository();
-        const student = await studentRepository.update(id, birthDate, ra, name, email, password);
+        const professorRepository = makeProfessorRepository();
+        const professor = await professorRepository.update(id, professorNumber, name, email, password);
         res.status(201).json({
-            data: { studentId: student.getId() },
+            data: { professorId: professor.getId() },
             message: 'Updated successfully',
         });
     } catch (e) {

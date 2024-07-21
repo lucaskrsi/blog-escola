@@ -8,7 +8,7 @@ import { Professor } from "../../../models/Professor";
 export async function create(req: Request, res: Response, next: NextFunction) {
     try {
         const createBody = z.object({
-            professorNumber: z.number(),
+            professorNumber: z.coerce.number(),
             name: z.string().max(80),
             email: z.string().email(),
             password: z.string(),

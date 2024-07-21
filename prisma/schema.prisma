@@ -26,17 +26,17 @@ model User {
 }
 
 model Student {
-  id        String   @id @default(uuid())
-  birthDate DateTime
-  ra        String   @unique
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id        String  @id @default(uuid())
+  birthDate String
+  ra        String  @unique
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   class     Class[]
 }
 
 model Professor {
   id              String @id @default(uuid())
-  professorNumber Int
+  professorNumber Int    @unique
   user            User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId          String @unique
   Post            Post[]

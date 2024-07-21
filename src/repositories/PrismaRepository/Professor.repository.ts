@@ -74,7 +74,7 @@ export class ProfessorRepository implements IProfessorRepository {
                 user: true,
             }
         });
-        Professor.professorList = professorPrisma.map((student) => {
+        Professor.professorList = professorPrisma.map((professor) => {
             return new Professor(
                 new User(
                     professor.user.name,

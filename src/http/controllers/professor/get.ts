@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
-import { makeStudentRepository } from "../../../repositories/factory/makeStudentRepository";
+import { makeProfessorRepository } from "../../../repositories/factory/makeProfessorRepository";
 
 export async function get(req: Request, res: Response, next: NextFunction) {
     try {
@@ -10,18 +10,17 @@ export async function get(req: Request, res: Response, next: NextFunction) {
         });
 
         const { id } = createParam.parse(req.params);
-        const studentRepository = makeStudentRepository();
-        const student = await studentRepository.get(id);
+        const professorRepository = makeProfessorRepository();
+        const professor = await professorRepository.get(id);
         res.status(200).json({
             data: {
-                student: {
-                    id: student.getId(),
-                    birthDate: student.getBirthDate(),
-                    ra: student.getRa(),
+                professor: {
+                    id: professor.getId(),
+                    professorNumber: professor.getProfessorNumber(),
                     user: {
-                        id: student.user.getId(),
-                        name: student.user.getName(),
-                        email: student.user.getEmail(),
+                        id: professor.user.getId(),
+                        name: professor.user.getName(),
+                        email: professor.user.getEmail(),
                     }
                 }
             },

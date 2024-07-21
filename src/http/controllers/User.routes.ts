@@ -16,5 +16,5 @@ export function userRoutes(router: Router):void{
     router.get("/users/:id", [ensureAuthenticated, authorizationVerifier], get);
     router.delete("/users/:id", [ensureAuthenticated, authorizationVerifier], remove);
     router.put("/users/:id", [ensureAuthenticated, authorizationVerifier], update);
-    router.post("/users", create);
+    router.post("/users", [ensureAuthenticated, authorizationVerifier], create);
 }

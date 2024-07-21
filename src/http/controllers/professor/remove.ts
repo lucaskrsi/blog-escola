@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
-import { makeStudentRepository } from "../../../repositories/factory/makeStudentRepository";
+import { makeProfessorRepository } from "../../../repositories/factory/makeProfessorRepository";
 
 export async function remove(req: Request, res: Response, next: NextFunction) {
     try {
@@ -10,10 +10,10 @@ export async function remove(req: Request, res: Response, next: NextFunction) {
         });
 
         const { id } = createParam.parse(req.params);
-        const studentRepository = makeStudentRepository();
-        const studentId = await studentRepository.delete(id);
+        const professorRepository = makeProfessorRepository();
+        const professorId = await professorRepository.delete(id);
         res.status(200).json({
-            data: { studentId: studentId },
+            data: { professorId: professorId },
             message: 'Deleted successfully',
         });
     } catch (e) {

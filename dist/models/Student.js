@@ -25,8 +25,14 @@ class Student {
     getUserId() {
         return this._userId;
     }
+    setBirthDate(birthDate) {
+        this._birthDate = birthDate;
+    }
     getBirthDate() {
         return this._birthDate;
+    }
+    setRa(ra) {
+        this._ra = ra;
     }
     getRa() {
         return this._ra;

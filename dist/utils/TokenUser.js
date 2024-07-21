@@ -24,7 +24,7 @@ class TokenUser {
         return __awaiter(this, void 0, void 0, function* () {
             return (0, jsonwebtoken_1.sign)({}, process.env.JWT_KEY, {
                 subject: userId,
-                expiresIn: "120s"
+                expiresIn: "18000000s"
             });
         });
     }

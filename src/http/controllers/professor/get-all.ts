@@ -1,26 +1,26 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
-import { makeStudentRepository } from "../../../repositories/factory/makeStudentRepository";
+import { makeProfessorRepository } from "../../../repositories/factory/makeProfessorRepository";
 
 export async function getAll(req: Request, res: Response, next: NextFunction) {
     try {
-        const studentRepository = makeStudentRepository();
-        const studentList = await studentRepository.getAll();
-        let list = studentList.map(student => {
+        const professorRepository = makeProfessorRepository();
+        const professorList = await professorRepository.getAll();
+        let list = professorList.map(professor => {
             return {
-                birthDate: student.getBirthDate(),
-                ra: student.getRa(),
+                id: professor.getId(),
+                birthDate: professor.getProfessorNumber(),
                 user:{
-                    id: student.user.getId(),
-                    name: student.user.getName(),
-                    email: student.user.getEmail()
+                    id: professor.user.getId(),
+                    name: professor.user.getName(),
+                    email: professor.user.getEmail()
                 }
             };
         });
         res.status(201).json({
             data: {
-                students: list,
+                professors: list,
             },
         });
     } catch (e) {

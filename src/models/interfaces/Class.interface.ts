@@ -7,6 +7,7 @@ export interface IClass {
 
     setId(id: string)
     getId(): string    
-    setName(id: string)
+    setName(name: string)
     getName(): string 
+    addStudents(students: IStudent[]): void
 }
