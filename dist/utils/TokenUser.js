@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenUser = void 0;
+// @ts-ignore
 const HttpException_1 = require("../exceptions/HttpException");
 const client_1 = require("../database/config/client");
 const jsonwebtoken_1 = require("jsonwebtoken");

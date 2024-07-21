@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+// @ts-ignore
 import { HttpException } from "../exceptions/HttpException";
 import { prisma } from "../database/config/client";
 import { sign, verify } from "jsonwebtoken";

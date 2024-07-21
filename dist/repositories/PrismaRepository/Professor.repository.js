@@ -12,10 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfessorRepository = void 0;
 const bcrypt_1 = require("bcrypt");
 const client_1 = require("../../database/config/client");
-const HttpException_1 = require("../../exceptions/HttpException");
 const client_2 = require("@prisma/client");
 const User_1 = require("../../models/User");
 const Professor_1 = require("../../models/Professor");
+const HttpException_1 = require("../../exceptions/HttpException");
 class ProfessorRepository {
     create(professor) {
         return __awaiter(this, void 0, void 0, function* () {

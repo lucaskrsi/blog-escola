@@ -1,7 +1,9 @@
 import { Prisma } from "@prisma/client";
 import { ZodError } from "zod";
+// @ts-ignore
 import { ZodExceptionHandler } from "./ZodExceptionHandler";
 import { HttpException } from "./HttpException";
+// @ts-ignore
 import { PrismaExceptionHandler } from "./PrismaExceptionHandler";
 
 export class ErrorHandler {
