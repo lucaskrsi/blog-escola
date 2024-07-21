@@ -1,11 +1,11 @@
 import { hashSync } from "bcrypt";
 import { prisma } from "../../database/config/client";
-import { HttpException } from "../../exceptions/HttpException";
 import { Role } from "@prisma/client";
 import { User } from "../../models/User";
 import { IProfessor } from "../../models/interfaces/Professor.interface";
 import { IProfessorRepository } from "../interfaces/Professor.repository.interface";
 import { Professor } from "../../models/Professor";
+import {HttpException} from "../../exceptions/HttpException";
 
 export class ProfessorRepository implements IProfessorRepository {
 

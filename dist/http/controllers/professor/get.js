@@ -26,7 +26,7 @@ function get(req, res, next) {
                 data: {
                     professor: {
                         id: professor.getId(),
-                        birthDate: professor.getProfessorNumber(),
+                        professorNumber: professor.getProfessorNumber(),
                         user: {
                             id: professor.user.getId(),
                             name: professor.user.getName(),

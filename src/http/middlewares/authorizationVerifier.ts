@@ -3,6 +3,7 @@ import { decode } from "jsonwebtoken";
 import { TokenUser } from "../../utils/TokenUser";
 import { User } from "../../models/User";
 import { HttpException } from "../../exceptions/HttpException";
+// @ts-ignore
 import { ErrorHandler } from "../../exceptions/ErrorHandler";
 
 export async function authorizationVerifier(req: Request, res: Response, next: NextFunction) {

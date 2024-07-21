@@ -13,6 +13,7 @@ exports.authorizationVerifier = void 0;
 const TokenUser_1 = require("../../utils/TokenUser");
 const User_1 = require("../../models/User");
 const HttpException_1 = require("../../exceptions/HttpException");
+// @ts-ignore
 const ErrorHandler_1 = require("../../exceptions/ErrorHandler");
 function authorizationVerifier(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {

@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  app:
+    build: .
+    container_name: my_node_app
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_KEY=${JWT_KEY}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+
   postgres:
     image: bitnami/postgresql:latest
     container_name: Postgres
