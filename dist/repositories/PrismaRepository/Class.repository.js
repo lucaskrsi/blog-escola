@@ -80,7 +80,6 @@ class ClassRepository {
                     },
                 }
             });
-            console.log(classPrisma);
             let studentList = classPrisma.student.map((student) => {
                 return new Student_1.Student(new User_1.User(student.user.name, student.user.email, student.user.password, student.user.role, student.user.id), student.birthDate.toString(), student.ra, student.id);
             });
