@@ -22,6 +22,7 @@ function getAll(req, res, next) {
                     id: post.getId(),
                     title: post.getTitle(),
                     content: post.getContent(),
+                    author: post.getAuthor().getId(),
                     published: post.isPublished(),
                 };
             });

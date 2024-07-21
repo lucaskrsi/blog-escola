@@ -54,15 +54,15 @@ export class ClassRepository implements IClassRepository {
         const studentPrisma = await prisma.student.findMany({
             include: {
                 class: {
-                    where : {
+                    where: {
                         id: classObject.getId(),
                     },
                 },
                 user: true,
             }
         });
-        
-        if(!studentPrisma){
+
+        if (!studentPrisma) {
             throw HttpException.NotFoundError("No students enrolled in this class");
         }
 
@@ -81,17 +81,57 @@ export class ClassRepository implements IClassRepository {
             );
         });
 
-        return studentList;       
+        return studentList;
     }
 
     async addStudent(classObject: IClass, student: IStudent): Promise<IClass> {
         const classPrisma = await prisma.class.update({
-            where : {
-                id: student.getId(),
+            where: {
+                id: classObject.getId(),
             },
-            data:{
-                student:{
-                    connect:{
+            data: {
+                student: {
+                    connect: {
+                        id: student.getId(),
+                    }
+                }
+            },
+            include: {
+                student: {
+                    include: {
+                        user: true,
+                    }
+                },
+            }
+        });
+        let studentList = classPrisma.student.map((student) => {
+            return new Student(
+                new User(
+                    student.user.name,
+                    student.user.email,
+                    student.user.password,
+                    student.user.role,
+                    student.user.id
+                ),
+                student.birthDate.toString(),
+                student.ra,
+                student.id
+            );
+        });
+
+        classObject.addStudents(studentList);
+
+        return classObject;
+    }
+
+    async removeStudent(classObject: IClass, student: IStudent): Promise<IClass> {
+        const classPrisma = await prisma.class.update({
+            where: {
+                id: classObject.getId(),
+            },
+            data: {
+                student: {
+                    disconnect: {
                         id: student.getId(),
                     }
                 }
@@ -125,89 +165,89 @@ export class ClassRepository implements IClassRepository {
         return classObject;
     }
 
-    async create(classObject: IClass): Promise<IClass> {
-       
-        let classPrisma = await prisma.class.create({
-            data: {
-                name: classObject.getName(),
-            },
-        })
+    async create(classObject: IClass): Promise < IClass > {
+
+            let classPrisma = await prisma.class.create({
+                data: {
+                    name: classObject.getName(),
+                },
+            })
 
         classObject.setId(classPrisma.id);
-        return classObject;
-    }
-
-    async get(id: string): Promise<IClass> {
-        const classPrisma = await prisma.class.findUnique({
-            where: {
-                id: id,
-            },
-            include: {
-                student: true,
-            }
-        })
-
-        if (!classPrisma) {
-            throw HttpException.NotFoundError("Class not found");
+            return classObject;
         }
+
+    async get(id: string): Promise < IClass > {
+            const classPrisma = await prisma.class.findUnique({
+                where: {
+                    id: id,
+                },
+                include: {
+                    student: true,
+                }
+            })
+
+        if(!classPrisma) {
+                throw HttpException.NotFoundError("Class not found");
+            }
 
         const classObject = new Class(
-            classPrisma.name,
-            classPrisma.id
-        );
+                classPrisma.name,
+                classPrisma.id
+            );
 
-        return classObject;
-    }
+            return classObject;
+        }
 
-    async getAll(): Promise<IClass[]> {
-        const classPrisma = await prisma.class.findMany();
-        Class.classList = classPrisma.map((classObject) => {
-            return new Class(
+    async getAll(): Promise < IClass[] > {
+            const classPrisma = await prisma.class.findMany();
+            Class.classList = classPrisma.map((classObject) => {
+                return new Class(
                     classObject.name,
                     classObject.id
-            );
-        });
+                );
+            });
 
-        return Class.classList;
-    }
-
-    async update(id: string, name?: string): Promise<IClass> {
-        let classPrisma = await this.get(id);
-
-        if (!classPrisma) {
-            throw HttpException.NotFoundError("Class not found");
+            return Class.classList;
         }
+
+    async update(id: string, name ?: string): Promise < IClass > {
+            let classPrisma = await this.get(id);
+
+            if(!classPrisma) {
+                throw HttpException.NotFoundError("Class not found");
+            }
 
         let classObject = await prisma.class.update({
-            where: {
-                id: classPrisma.getId(),
-            },
-            data: {
-                name: (typeof name == "string") ? name : classPrisma.getName(),
-            },
-            include: {
-                student: true,
-            }
-        })
+                where: {
+                    id: classPrisma.getId(),
+                },
+                data: {
+                    name: (typeof name == "string") ? name : classPrisma.getName(),
+                },
+                include: {
+                    student: true,
+                }
+            })
 
         classPrisma.setName(classObject.name);
-        return classPrisma;
-    }
-
-    async delete(id: string): Promise<string> {
-        let classPrisma = await this.get(id);
-
-        if (!classPrisma) {
-            throw HttpException.NotFoundError("Class not found");
+            return classPrisma;
         }
 
-        let user = await prisma.class.delete({
-            where: {
-                id: classPrisma.getId(),
+    async delete (id: string): Promise<string>{
+            let classPrisma = await this.get(id);
+
+            if(!classPrisma) {
+                throw HttpException.NotFoundError("Class not found");
             }
-        })
+
+        let user = await prisma.class.delete({
+                where: {
+                    id: classPrisma.getId(),
+                }
+            })
 
         return user.id.toString();
-    }
+        }
 
-}
+    }

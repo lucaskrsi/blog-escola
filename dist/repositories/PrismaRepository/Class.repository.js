@@ -63,11 +63,40 @@ class ClassRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const classPrisma = yield client_1.prisma.class.update({
                 where: {
-                    id: student.getId(),
+                    id: classObject.getId(),
                 },
                 data: {
                     student: {
                         connect: {
+                            id: student.getId(),
+                        }
+                    }
+                },
+                include: {
+                    student: {
+                        include: {
+                            user: true,
+                        }
+                    },
+                }
+            });
+            console.log(classPrisma);
+            let studentList = classPrisma.student.map((student) => {
+                return new Student_1.Student(new User_1.User(student.user.name, student.user.email, student.user.password, student.user.role, student.user.id), student.birthDate.toString(), student.ra, student.id);
+            });
+            classObject.addStudents(studentList);
+            return classObject;
+        });
+    }
+    removeStudent(classObject, student) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const classPrisma = yield client_1.prisma.class.update({
+                where: {
+                    id: classObject.getId(),
+                },
+                data: {
+                    student: {
+                        disconnect: {
                             id: student.getId(),
                         }
                     }

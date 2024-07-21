@@ -12,6 +12,7 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
                 id: post.getId(),
                 title: post.getTitle(),
                 content: post.getContent(),
+                author: post.getAuthor().getId(),
                 published: post.isPublished(),
             };
         });

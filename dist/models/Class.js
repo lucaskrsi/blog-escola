@@ -25,5 +25,8 @@ class Class {
     addStudents(students) {
         this.students = students;
     }
+    getStudents() {
+        return this.students;
+    }
 }
 exports.Class = Class;

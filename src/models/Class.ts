@@ -38,4 +38,8 @@ export class Class implements IClass {
     public addStudents(students: IStudent[]): void {
         this.students = students;
     }
+    
+    public getStudents(): IStudent[] {
+        return this.students;
+    }
 }

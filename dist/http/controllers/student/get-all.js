@@ -19,6 +19,7 @@ function getAll(req, res, next) {
             const studentList = yield studentRepository.getAll();
             let list = studentList.map(student => {
                 return {
+                    id: student.getId(),
                     birthDate: student.getBirthDate(),
                     ra: student.getRa(),
                     user: {

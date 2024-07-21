@@ -9,6 +9,7 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
         const studentList = await studentRepository.getAll();
         let list = studentList.map(student => {
             return {
+                id: student.getId(),
                 birthDate: student.getBirthDate(),
                 ra: student.getRa(),
                 user:{
