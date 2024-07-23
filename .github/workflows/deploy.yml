@@ -40,13 +40,6 @@ jobs:
           service-id: ${{ secrets.SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
 
-      - name: Run Application
-        run: |
-          docker-compose down
-          docker-compose pull
-          docker-compose up -d
-          EOF
-
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
