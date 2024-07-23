@@ -1,5 +1,5 @@
 # Use uma imagem base oficial do Node.js
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Instale ferramentas necessárias para compilar dependências nativas
 RUN apk add --no-cache make gcc g++ python3 openssl
@@ -7,17 +7,14 @@ RUN apk add --no-cache make gcc g++ python3 openssl
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src/app
 
-# Copie os arquivos de dependências para o contêiner
-COPY package*.json ./
+# Copie todo o código da aplicação para o contêiner
+COPY . .
 
 # Instale as dependências
 RUN npm install
 
 # Reinstale bcrypt para garantir que ele seja compilado para a plataforma correta
 RUN npm rebuild bcrypt
-
-# Copie todo o código da aplicação para o contêiner
-COPY . .
 
 # Gere os binários do Prisma para a plataforma correta
 RUN npx prisma generate
