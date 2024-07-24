@@ -36,7 +36,7 @@ function getAll(req, res, next) {
                     students: studentsList
                 });
             }
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     classes: classObjectList,
                 },

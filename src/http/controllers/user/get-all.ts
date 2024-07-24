@@ -15,7 +15,7 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
                 role: user.getRole(),
             };
         });
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 users: list,
             },

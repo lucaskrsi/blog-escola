@@ -35,7 +35,7 @@ function update(req, res, next) {
                 classObject = yield classRepository.get(classId);
             }
             const post = yield postRepository.update(id, classObject, title, content, published);
-            res.status(201).json({
+            res.status(200).json({
                 data: { postId: post.getId() },
                 message: 'Updated successfully',
             });

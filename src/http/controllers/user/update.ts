@@ -21,7 +21,7 @@ export async function update(req: Request, res: Response, next: NextFunction) {
 
         const userRepository = makeUserRepository();
         const user = await userRepository.update(id, name, email, password, role);
-        res.status(201).json({
+        res.status(200).json({
             data: { userId: user.getId() },
             message: 'Updated successfully',
         });

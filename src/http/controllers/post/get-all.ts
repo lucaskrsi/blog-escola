@@ -16,7 +16,7 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
                 published: post.isPublished(),
             };
         });
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 posts: list,
             },

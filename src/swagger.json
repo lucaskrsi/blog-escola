@@ -1,0 +1,450 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "School Blog API",
+        "description": "School Activity Posts Management API",
+        "version": "1.0.0",
+        "contact": {
+            "email": "lucas.silva.code@outlook.com.br"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://blog-escola.onrender.com",
+            "description": "Production"
+        },
+        {
+            "url": "http://localhost:3000",
+            "description": "Local test"
+        }
+    ],
+    "paths": {
+        "/users/login": {
+            "post": {
+                "summary": "Login",
+                "description": "Route to login on the plataform and provide the token and refresh token",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLoginRequest"
+                            },
+                            "examples": {
+                                "login": {
+                                    "value": {
+                                        "email": "email@example.com",
+                                        "password": "Password@#$123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Email or password incorrect",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid types in sent arguments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UserLoginResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/refresh-token": {
+            "post": {
+                "summary": "Update token",
+                "description": "Route to update the token automatically",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRefreshTokenRequest"
+                            },
+                            "examples": {
+                                "login": {
+                                    "value": {
+                                        "refreshTokenId": "ceac8c8b-69fa-4b28-bc3b-975914322752"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Refresh token invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid types in sent arguments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UserRefreshTokenResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/students/{id}": {
+            "get": {
+                "summary": "Get Student",
+                "description": "Route to get a student by ID",
+                "tags": [
+                    "Students"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Student ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "put": {
+                "summary": "Update Student",
+                "description": "Route to update a student by ID",
+                "tags": [
+                    "Students"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Student ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "delete": {
+                "summary": "Delete Student",
+                "description": "Route to delete a student by ID",
+                "tags": [
+                    "Students"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Student ID",
+                        "required": true
+                    }
+                ] 
+            }
+        },
+        "/professors/{id}": {
+            "get": {
+                "summary": "Get Professor",
+                "description": "Route to get a professor by ID",
+                "tags": [
+                    "Professors"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Professor ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "put": {
+                "summary": "Update Professor",
+                "description": "Route to update a professor by ID",
+                "tags": [
+                    "Professors"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Professor ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "delete": {
+                "summary": "Delete Professor",
+                "description": "Route to delete a professor by ID",
+                "tags": [
+                    "Professors"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Professor ID",
+                        "required": true
+                    }
+                ] 
+            }
+        },
+        "/classes/{id}": {
+            "get": {
+                "summary": "Get Class",
+                "description": "Route to get a class by ID",
+                "tags": [
+                    "Classes"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Class ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "put": {
+                "summary": "Update Class",
+                "description": "Route to update a class by ID",
+                "tags": [
+                    "Classes"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Class ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "delete": {
+                "summary": "Delete Class",
+                "description": "Route to delete a class by ID",
+                "tags": [
+                    "Classes"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Class ID",
+                        "required": true
+                    }
+                ] 
+            }
+        },
+        "/posts/{id}": {
+            "get": {
+                "summary": "Get Post",
+                "description": "Route to get a post by ID",
+                "tags": [
+                    "Posts"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "put": {
+                "summary": "Update Post",
+                "description": "Route to update a post by ID",
+                "tags": [
+                    "Posts"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post ID",
+                        "required": true
+                    }
+                ] 
+            },
+            "delete": {
+                "summary": "Delete Post",
+                "description": "Route to delete a post by ID",
+                "tags": [
+                    "Posts"
+                ],
+                "security": [{"bearerAuth": []}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post ID",
+                        "required": true
+                    }
+                ] 
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "UserLoginRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserLoginResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "token": {
+                                "type": "string"
+                            },
+                            "refreshToken": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "userId": {
+                                        "type": "string"
+                                    },
+                                    "expiresIn": {
+                                        "type": "integer"
+                                    },
+                                    "createdAt": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "UserRefreshTokenRequest": {
+                "type": "object",
+                "properties": {
+                    "refreshTokenId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserRefreshTokenResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "token": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "ErrorMessage": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

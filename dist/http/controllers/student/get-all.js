@@ -29,7 +29,7 @@ function getAll(req, res, next) {
                     }
                 };
             });
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     students: list,
                 },

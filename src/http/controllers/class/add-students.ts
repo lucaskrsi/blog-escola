@@ -46,7 +46,7 @@ export async function addStudents(req: Request, res: Response, next: NextFunctio
             students: studentList
         };
 
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 class: {
                     classObjectFiltered,
