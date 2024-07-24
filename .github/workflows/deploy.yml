@@ -42,6 +42,7 @@ jobs:
 
       - name: Run Database Schema
         run: |
+          cd user/src/app
           prisma migrate deploy
           EOF
 
