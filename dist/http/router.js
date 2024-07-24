@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = require("express");
+const User_routes_1 = require("./controllers/User.routes");
+const Student_routes_1 = require("./controllers/Student.routes");
+const Professor_routes_1 = require("./controllers/Professor.routes");
+const Post_routes_1 = require("./controllers/Post.routes");
+const Class_routes_1 = require("./controllers/Class.routes");
+const router = (0, express_1.Router)();
+exports.router = router;
+(0, User_routes_1.userRoutes)(router);
+(0, Student_routes_1.studentRoutes)(router);
+(0, Professor_routes_1.professorRoutes)(router);
+(0, Post_routes_1.postRoutes)(router);
+(0, Class_routes_1.classRoutes)(router);
