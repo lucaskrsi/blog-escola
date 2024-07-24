@@ -40,6 +40,11 @@ jobs:
           service-id: ${{ secrets.SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
 
+      - name: Run Database Schema
+        run: |
+          prisma migrate deploy
+          EOF
+
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
