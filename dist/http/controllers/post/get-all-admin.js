@@ -9,20 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAll = void 0;
+exports.getAllAdmin = void 0;
 const ErrorHandler_1 = require("../../../exceptions/ErrorHandler");
 const makePostRepository_1 = require("../../../repositories/factory/makePostRepository");
-function getAll(req, res, next) {
+function getAllAdmin(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const postRepository = (0, makePostRepository_1.makePostRepository)();
-            const postList = yield postRepository.getAll();
+            const postList = yield postRepository.getAll(true);
             let list = postList.map(post => {
                 return {
                     id: post.getId(),
                     title: post.getTitle(),
                     content: post.getContent(),
                     author: post.getAuthor().getId(),
+                    published: post.isPublished(),
                 };
             });
             res.status(201).json({
@@ -36,4 +37,4 @@ function getAll(req, res, next) {
         }
     });
 }
-exports.getAll = getAll;
+exports.getAllAdmin = getAllAdmin;

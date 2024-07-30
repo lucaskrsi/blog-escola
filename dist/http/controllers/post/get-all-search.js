@@ -9,14 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAll = void 0;
+exports.getAllSearch = void 0;
+const zod_1 = require("zod");
 const ErrorHandler_1 = require("../../../exceptions/ErrorHandler");
 const makePostRepository_1 = require("../../../repositories/factory/makePostRepository");
-function getAll(req, res, next) {
+function getAllSearch(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const createParam = zod_1.z.object({
+                keyword: zod_1.z.optional(zod_1.z.string().transform(value => value.replace(/\s+/g, ''))),
+            });
+            const { keyword } = createParam.parse(req.query);
+            console.log(keyword);
             const postRepository = (0, makePostRepository_1.makePostRepository)();
-            const postList = yield postRepository.getAll();
+            const postList = yield postRepository.getAllSearch(keyword);
             let list = postList.map(post => {
                 return {
                     id: post.getId(),
@@ -36,4 +42,4 @@ function getAll(req, res, next) {
         }
     });
 }
-exports.getAll = getAll;
+exports.getAllSearch = getAllSearch;

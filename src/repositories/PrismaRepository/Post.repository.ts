@@ -32,7 +32,7 @@ export class PostRepository implements IPostRepository {
             where: {
                 id: id,
             },
-            include:{
+            include: {
                 class: true,
                 author: {
                     include: {
@@ -74,20 +74,37 @@ export class PostRepository implements IPostRepository {
         return post;
     }
 
-    async getAll(): Promise<IPost[]> {
-        const postPrisma = await prisma.post.findMany({
-            include:{
-                class: true,
-                author: {
-                    include: {
-                        user: true,
-                    }
+    async getAll(admin?: boolean): Promise<IPost[]> {
+        let postPrisma = null;
+        if (!admin) {
+            postPrisma = await prisma.post.findMany({
+                where: {
+                    published: true,
                 },
-            }
-        });
+                include: {
+                    class: true,
+                    author: {
+                        include: {
+                            user: true,
+                        }
+                    },
+                }
+            });
+        } else {
+            postPrisma = await prisma.post.findMany({
+                include: {
+                    class: true,
+                    author: {
+                        include: {
+                            user: true,
+                        }
+                    },
+                }
+            });
+        }
 
         Post.postList = postPrisma.map((post) => {
-            let postObject =  new Post(
+            let postObject = new Post(
                 new Class(
                     post.class.name,
                     post.class.id
@@ -108,7 +125,7 @@ export class PostRepository implements IPostRepository {
                 post.published,
                 post.id
             );
-    
+
             postObject.setCreatedAt(post.createdAt.toString());
             postObject.setUpdatedAt(post.updatedAt.toString());
             return postObject;
@@ -116,13 +133,67 @@ export class PostRepository implements IPostRepository {
 
         return Post.postList;
     }
-    
+
+    async getAllSearch(keyword?: string): Promise<IPost[]> {
+        const postPrisma = await prisma.post.findMany({
+            where: {
+                title: {
+                    search: keyword,
+                    mode: 'insensitive',
+                },
+                content: {
+                    search: keyword,
+                    mode: 'insensitive',
+                },
+                published: true
+            },
+            include: {
+                class: true,
+                author: {
+                    include: {
+                        user: true,
+                    }
+                },
+            }
+        });
+
+        Post.postList = postPrisma.map((post) => {
+            let postObject = new Post(
+                new Class(
+                    post.class.name,
+                    post.class.id
+                ),
+                new Professor(
+                    new User(
+                        post.author.user.name,
+                        post.author.user.email,
+                        post.author.user.password,
+                        post.author.user.role,
+                        post.author.user.id
+                    ),
+                    post.author.professorNumber,
+                    post.id
+                ),
+                post.title,
+                post.content,
+                post.published,
+                post.id
+            );
+
+            postObject.setCreatedAt(post.createdAt.toString());
+            postObject.setUpdatedAt(post.updatedAt.toString());
+            return postObject;
+        });
+
+        return Post.postList;
+    }
+
     async getByClass(classObject: IClass): Promise<IPost[]> {
         const postPrisma = await prisma.post.findMany({
-            where:{
+            where: {
                 classId: classObject.getId(),
             },
-            include:{
+            include: {
                 class: true,
                 author: {
                     include: {
@@ -133,7 +204,7 @@ export class PostRepository implements IPostRepository {
         });
 
         Post.postList = postPrisma.map((post) => {
-            let postObject =  new Post(
+            let postObject = new Post(
                 new Class(
                     post.class.name,
                     post.class.id
@@ -154,7 +225,7 @@ export class PostRepository implements IPostRepository {
                 post.published,
                 post.id
             );
-    
+
             postObject.setCreatedAt(post.createdAt.toString());
             postObject.setUpdatedAt(post.updatedAt.toString());
             return postObject;
@@ -162,13 +233,13 @@ export class PostRepository implements IPostRepository {
 
         return Post.postList;
     }
-    
+
     async getByAuthor(author: IProfessor): Promise<IPost[]> {
         const postPrisma = await prisma.post.findMany({
-            where:{
+            where: {
                 classId: author.getId(),
             },
-            include:{
+            include: {
                 class: true,
                 author: {
                     include: {
@@ -179,7 +250,7 @@ export class PostRepository implements IPostRepository {
         });
 
         Post.postList = postPrisma.map((post) => {
-            let postObject =  new Post(
+            let postObject = new Post(
                 new Class(
                     post.class.name,
                     post.class.id
@@ -200,7 +271,7 @@ export class PostRepository implements IPostRepository {
                 post.published,
                 post.id
             );
-    
+
             postObject.setCreatedAt(post.createdAt.toString());
             postObject.setUpdatedAt(post.updatedAt.toString());
             return postObject;
@@ -216,20 +287,38 @@ export class PostRepository implements IPostRepository {
             throw HttpException.NotFoundError("Post not found");
         }
 
-        let post = await prisma.post.update({
-            where: {
-                id: postPrisma.getId(),
-            },
-            data: {
-                title: (typeof title == "string") ? title : postPrisma.getTitle(),
-                content: (typeof content == "string") ? content : postPrisma.getContent(),
-                published: (typeof published == "boolean") ? published : postPrisma.isPublished(),
-                classId: (typeof classObject == "object") ? classObject.getId() : postPrisma.classObject.getId(),
-            },
-            include:{
-                class: true,
-            }
-        });
+        let post = null;
+        if(classObject) {
+            post = await prisma.post.update({
+                where: {
+                    id: postPrisma.getId(),
+                },
+                data: {
+                    title: (typeof title == "string") ? title : postPrisma.getTitle(),
+                    content: (typeof content == "string") ? content : postPrisma.getContent(),
+                    published: (typeof published == "boolean") ? published : postPrisma.isPublished(),
+                    classId: (typeof classObject == "object") ? classObject.getId() : postPrisma.classObject.getId(),
+                },
+                include: {
+                    class: true,
+                }
+            });
+            
+        }else{
+            post = await prisma.post.update({
+                where: {
+                    id: postPrisma.getId(),
+                },
+                data: {
+                    title: (typeof title == "string") ? title : postPrisma.getTitle(),
+                    content: (typeof content == "string") ? content : postPrisma.getContent(),
+                    published: (typeof published == "boolean") ? published : postPrisma.isPublished(),
+                },
+                include: {
+                    class: true,
+                }
+            });
+        }
 
         postPrisma.setTitle(post.title);
         postPrisma.setContent(post.content);
