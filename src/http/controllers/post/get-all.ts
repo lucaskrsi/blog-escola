@@ -15,7 +15,7 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
                 author: post.getAuthor().getId(),
             };
         });
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 posts: list,
             },

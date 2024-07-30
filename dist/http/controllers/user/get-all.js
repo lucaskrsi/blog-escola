@@ -25,7 +25,7 @@ function getAll(req, res, next) {
                     role: user.getRole(),
                 };
             });
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     users: list,
                 },

@@ -22,12 +22,12 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
             }
             classObjectList.push({
                 id: classObject.getId(),
-                class: classObject.getName(),
+                name: classObject.getName(),
                 students: studentsList
             });
         }
         
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 classes: classObjectList,
             },

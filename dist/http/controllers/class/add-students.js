@@ -45,7 +45,7 @@ function addStudents(req, res, next) {
                 name: classObject.getName(),
                 students: studentList
             };
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     class: {
                         classObjectFiltered,

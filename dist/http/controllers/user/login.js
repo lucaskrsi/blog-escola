@@ -25,7 +25,7 @@ function login(req, res, next) {
             const userRepository = (0, makeUserRepository_1.makeUserRepository)();
             const { token, user } = yield userRepository.executeAuthentication(email, password);
             const refreshToken = yield TokenUser_1.TokenUser.generateRefreshToken(user.getId());
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     token,
                     refreshToken,

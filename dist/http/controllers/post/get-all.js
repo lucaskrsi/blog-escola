@@ -25,7 +25,7 @@ function getAll(req, res, next) {
                     author: post.getAuthor().getId(),
                 };
             });
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     posts: list,
                 },

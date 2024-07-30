@@ -29,7 +29,7 @@ export async function update(req: Request, res: Response, next: NextFunction) {
         }
 
         const post = await postRepository.update(id, classObject, title, content, published);
-        res.status(201).json({
+        res.status(200).json({
             data: { postId: post.getId() },
             message: 'Updated successfully',
         });

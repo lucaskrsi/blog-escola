@@ -29,7 +29,7 @@ function update(req, res, next) {
             const { id } = createParam.parse(req.params);
             const professorRepository = (0, makeProfessorRepository_1.makeProfessorRepository)();
             const professor = yield professorRepository.update(id, professorNumber, name, email, password);
-            res.status(201).json({
+            res.status(200).json({
                 data: { professorId: professor.getId() },
                 message: 'Updated successfully',
             });

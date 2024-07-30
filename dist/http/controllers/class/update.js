@@ -26,7 +26,7 @@ function update(req, res, next) {
             const { id } = createParam.parse(req.params);
             const classRepository = (0, makeClassRepository_1.makeClassRepository)();
             const classObject = yield classRepository.update(id, name);
-            res.status(201).json({
+            res.status(200).json({
                 data: { classId: classObject.getId() },
                 message: 'Updated successfully',
             });
