@@ -19,7 +19,7 @@ export async function getAllSearch(req: Request, res: Response, next: NextFuncti
                 author: post.getAuthor().getId(),
             };
         });
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 posts: list,
             },
