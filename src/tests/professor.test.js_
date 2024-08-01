@@ -167,7 +167,7 @@ describe('User API', () => {
         const token = await authenticateUser(loginData);
 
         const updatedProfessorData = {
-            professorNumber: 4
+            professorNumber: 3
         };
 
         const professorId = response.body.data.professorId; 
