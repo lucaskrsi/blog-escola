@@ -22,7 +22,7 @@ export async function update(req: Request, res: Response, next: NextFunction) {
 
         const studentRepository = makeStudentRepository();
         const student = await studentRepository.update(id, birthDate, ra, name, email, password);
-        res.status(201).json({
+        res.status(200).json({
             data: { studentId: student.getId() },
             message: 'Updated successfully',
         });

@@ -3,16 +3,17 @@ import { z } from "zod";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
 import { makePostRepository } from "../../../repositories/factory/makePostRepository";
 
-export async function getAll(req: Request, res: Response, next: NextFunction) {
+export async function getAllAdmin(req: Request, res: Response, next: NextFunction) {
     try {
         const postRepository = makePostRepository();
-        const postList = await postRepository.getAll();
+        const postList = await postRepository.getAll(true);
         let list = postList.map(post => {
             return {
                 id: post.getId(),
                 title: post.getTitle(),
                 content: post.getContent(),
                 author: post.getAuthor().getId(),
+                published: post.isPublished(),
             };
         });
         res.status(200).json({

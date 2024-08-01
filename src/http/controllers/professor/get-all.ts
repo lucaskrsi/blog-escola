@@ -18,7 +18,7 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
                 }
             };
         });
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 professors: list,
             },

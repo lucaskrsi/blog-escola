@@ -1,0 +1,50 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API blog escolar",
+        "description": "API de gerenciamento de postagens de atividades escolares",
+        "version": "1.0.0",
+        "contact": {
+            "email": "lucas.silva.code@outlook.com.br"
+        }
+    },
+    "sevrers": [
+        {
+            "url": "https://blog-escola.onrender.com",
+            "description": "API de produção"
+        }
+    ],
+    "paths": {
+        "/users/login": {
+            "post": {
+                "summary": "Rota de Login",
+                "description": "Rota responsável por realizar o login na plataforma e obter o token e refresh token",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogin"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserLogin": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

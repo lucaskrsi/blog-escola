@@ -18,7 +18,7 @@ export async function update(req: Request, res: Response, next: NextFunction) {
 
         const classRepository = makeClassRepository();
         const classObject = await classRepository.update(id, name);
-        res.status(201).json({
+        res.status(200).json({
             data: { classId: classObject.getId() },
             message: 'Updated successfully',
         });

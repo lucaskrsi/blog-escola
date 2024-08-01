@@ -23,10 +23,9 @@ function getAll(req, res, next) {
                     title: post.getTitle(),
                     content: post.getContent(),
                     author: post.getAuthor().getId(),
-                    published: post.isPublished(),
                 };
             });
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     posts: list,
                 },

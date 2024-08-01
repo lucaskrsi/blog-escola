@@ -3,10 +3,14 @@ import { z } from "zod";
 import { ErrorHandler } from "../../../exceptions/ErrorHandler";
 import { makePostRepository } from "../../../repositories/factory/makePostRepository";
 
-export async function getAll(req: Request, res: Response, next: NextFunction) {
+export async function getAllSearch(req: Request, res: Response, next: NextFunction) {
     try {
+        const createParam = z.object({
+            keyword: z.optional(z.string().transform(value => value.replace(/\s+/g, ''))),
+        });
+        const { keyword } = createParam.parse(req.query);
         const postRepository = makePostRepository();
-        const postList = await postRepository.getAll();
+        const postList = await postRepository.getAllSearch(keyword);
         let list = postList.map(post => {
             return {
                 id: post.getId(),

@@ -13,12 +13,15 @@ An API for students and professors to organize their activities through posts
 
 ## 🔨 How to setup
 
-
 1. Clone this repository
 2. Install the dependeces `npm install`
 3. Setup PostgreSQL with `docker-compose up -d`
 4. Setup your `.env` or copy `.env.example` and rename to `.env`
-5. Run the application with `npm run:dev`
+5. Run the application with `npm run start`
 6. (Optional) Run the prisma studio to check the database updates with `npm run prisma studio`
 
 💡TIPS: I recommend the usage of <a href="https://www.postman.com">Postman</a> or <a href="https://hoppscotch.io">Hoppscotch</a> to test it.
+
+## 📑 API documentation
+
+Docs will be available on /api/docs/ when you run the application.

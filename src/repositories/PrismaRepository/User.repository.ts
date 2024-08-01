@@ -39,7 +39,7 @@ export class UserRepository implements IUserRepository {
         })
 
         if (!userPrisma) {
-            throw HttpException.NotFoundError("User not found");
+            throw HttpException.UnauthorizedError("Email or password incorrect");
         }
 
         const user = new User(

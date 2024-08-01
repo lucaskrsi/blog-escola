@@ -39,7 +39,7 @@ class UserRepository {
                 },
             });
             if (!userPrisma) {
-                throw HttpException_1.HttpException.NotFoundError("User not found");
+                throw HttpException_1.HttpException.UnauthorizedError("Email or password incorrect");
             }
             const user = new User_1.User(userPrisma.name, userPrisma.email, userPrisma.password, userPrisma.role, userPrisma.id);
             return user;

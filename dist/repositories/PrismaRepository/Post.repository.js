@@ -56,9 +56,59 @@ class PostRepository {
             return post;
         });
     }
-    getAll() {
+    getAll(admin) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let postPrisma = null;
+            if (!admin) {
+                postPrisma = yield client_1.prisma.post.findMany({
+                    where: {
+                        published: true,
+                    },
+                    include: {
+                        class: true,
+                        author: {
+                            include: {
+                                user: true,
+                            }
+                        },
+                    }
+                });
+            }
+            else {
+                postPrisma = yield client_1.prisma.post.findMany({
+                    include: {
+                        class: true,
+                        author: {
+                            include: {
+                                user: true,
+                            }
+                        },
+                    }
+                });
+            }
+            Post_1.Post.postList = postPrisma.map((post) => {
+                let postObject = new Post_1.Post(new Class_1.Class(post.class.name, post.class.id), new Professor_1.Professor(new User_1.User(post.author.user.name, post.author.user.email, post.author.user.password, post.author.user.role, post.author.user.id), post.author.professorNumber, post.id), post.title, post.content, post.published, post.id);
+                postObject.setCreatedAt(post.createdAt.toString());
+                postObject.setUpdatedAt(post.updatedAt.toString());
+                return postObject;
+            });
+            return Post_1.Post.postList;
+        });
+    }
+    getAllSearch(keyword) {
         return __awaiter(this, void 0, void 0, function* () {
             const postPrisma = yield client_1.prisma.post.findMany({
+                where: {
+                    title: {
+                        search: keyword,
+                        mode: 'insensitive',
+                    },
+                    content: {
+                        search: keyword,
+                        mode: 'insensitive',
+                    },
+                    published: true
+                },
                 include: {
                     class: true,
                     author: {
@@ -131,20 +181,38 @@ class PostRepository {
             if (!postPrisma) {
                 throw HttpException_1.HttpException.NotFoundError("Post not found");
             }
-            let post = yield client_1.prisma.post.update({
-                where: {
-                    id: postPrisma.getId(),
-                },
-                data: {
-                    title: (typeof title == "string") ? title : postPrisma.getTitle(),
-                    content: (typeof content == "string") ? content : postPrisma.getContent(),
-                    published: (typeof published == "boolean") ? published : postPrisma.isPublished(),
-                    classId: (typeof classObject == "object") ? classObject.getId() : postPrisma.classObject.getId(),
-                },
-                include: {
-                    class: true,
-                }
-            });
+            let post = null;
+            if (classObject) {
+                post = yield client_1.prisma.post.update({
+                    where: {
+                        id: postPrisma.getId(),
+                    },
+                    data: {
+                        title: (typeof title == "string") ? title : postPrisma.getTitle(),
+                        content: (typeof content == "string") ? content : postPrisma.getContent(),
+                        published: (typeof published == "boolean") ? published : postPrisma.isPublished(),
+                        classId: (typeof classObject == "object") ? classObject.getId() : postPrisma.classObject.getId(),
+                    },
+                    include: {
+                        class: true,
+                    }
+                });
+            }
+            else {
+                post = yield client_1.prisma.post.update({
+                    where: {
+                        id: postPrisma.getId(),
+                    },
+                    data: {
+                        title: (typeof title == "string") ? title : postPrisma.getTitle(),
+                        content: (typeof content == "string") ? content : postPrisma.getContent(),
+                        published: (typeof published == "boolean") ? published : postPrisma.isPublished(),
+                    },
+                    include: {
+                        class: true,
+                    }
+                });
+            }
             postPrisma.setTitle(post.title);
             postPrisma.setContent(post.content);
             postPrisma.setPublished(post.published);

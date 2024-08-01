@@ -15,7 +15,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         const userRepository = makeUserRepository();
         const { token, user } = await userRepository.executeAuthentication(email, password);
         const refreshToken = await TokenUser.generateRefreshToken(user.getId());
-        res.status(201).json({
+        res.status(200).json({
             data: {
                 token,
                 refreshToken,
