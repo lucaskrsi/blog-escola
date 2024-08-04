@@ -12,7 +12,7 @@ const authenticateUser = async (loginData) => {
     const response = await request(app)
         .post('/users/login')
         .send(loginData);
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(200);
     expect(response.body.data.token).toBeDefined();
     return response.body.data.token;
 };
@@ -90,7 +90,7 @@ describe('User API', () => {
             .get(`/professors`)
             .set('Authorization', `Bearer ${token}`);
 
-        expect(profResponse.statusCode).toBe(201);
+        expect(profResponse.statusCode).toBe(200);
         console.log('Professores listados com sucesso: ', profResponse.body)
     });
 
@@ -177,7 +177,7 @@ describe('User API', () => {
             .set('Authorization', `Bearer ${token}`)
             .send(updatedProfessorData);
 
-        expect(updateResponse.statusCode).toBe(201);
+        expect(updateResponse.statusCode).toBe(200);
         console.log('Updated Professor Data:', updateResponse.body);
 
     });
