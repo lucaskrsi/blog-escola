@@ -12,7 +12,7 @@ const authenticateUser = async (loginData) => {
     const response = await request(app)
         .post('/users/login')
         .send(loginData);
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(200);
     expect(response.body.data.token).toBeDefined();
     return response.body.data.token;
 };
@@ -38,7 +38,7 @@ describe('User API', () => {
         expect(response.statusCode).toBe(201);
         console.log('Professor criado com sucesso: ', response.body);
     });
-/*
+
     it('should create a new Studant', async () => {
         
         const userData = {
@@ -58,7 +58,7 @@ describe('User API', () => {
         expect(response.statusCode).toBe(201);
         console.log('Aluno criado com sucesso: ', response.body);
     });
-*/
+
     it('should create and retrieve a Student by ID', async () => {
 
         const userData = {
@@ -87,7 +87,7 @@ describe('User API', () => {
 
         const token = await authenticateUser(loginData);
         const idStudent = response.body.data.studentId;
-        console.log('ID do aluno: ', idStudent);
+        console.log('ID do aluno para ser consultado na requisição: ', idStudent);
         
         const pesquisaResponse = await request(app)
             .get(`/students/${idStudent}`)
@@ -97,12 +97,12 @@ describe('User API', () => {
         console.log('Aluno recuperado com sucesso: ', pesquisaResponse.body.data)
 
     });
-/*
+
     //Retorna a lista de alunos cadastrados    
     it('should retrieve all Students', async () => {
 
         const loginData = {
-            email: "buscaraluno@gmail.com",
+            email: "autenticar@gmail.com",
             password: "123456"
         };
 
@@ -112,7 +112,7 @@ describe('User API', () => {
             .get(`/students`)
             .set('Authorization', `Bearer ${token}`);
 
-        expect(stdResponse.statusCode).toBe(201);
+        expect(stdResponse.statusCode).toBe(200);
         console.log('Alunos listados com sucesso: ', stdResponse.body)
     });
 
@@ -139,7 +139,7 @@ describe('User API', () => {
 
 
         const loginData = {
-            email: "removeraluno@gmail.com",
+            email: "autenticar@gmail.com",
             password: "123456"
         };
         
@@ -152,7 +152,7 @@ describe('User API', () => {
             .set('Authorization', `Bearer ${token}`);
     
         expect(deleteResponse.statusCode).toBe(200);
-        expect(deleteResponse.body.message).toBe('Student deleted successfully');
+        expect(deleteResponse.body.message).toBe('Deleted successfully');
     
         const checkResponse = await request(app)
             .get(`/students/${idStudent}`)
@@ -184,7 +184,7 @@ describe('User API', () => {
         console.log('ID do aluno criado: ', response.body.data.studentId);
 
         const loginData = {
-            email: "atualizaraluno@gmail.com",
+            email: "autenticar@gmail.com",
             password: "123456"
         };
         
@@ -202,10 +202,10 @@ describe('User API', () => {
             .set('Authorization', `Bearer ${token}`)
             .send(updatedStudentData);
 
-        expect(updateResponse.statusCode).toBe(201);
+        expect(updateResponse.statusCode).toBe(200);
         console.log('Updated Student Data:', updateResponse.body);
 
     });
-*/
+
 });
 
