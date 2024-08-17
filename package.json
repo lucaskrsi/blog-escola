@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "prisma migrate deploy && prisma generate && node ./dist/index.js",
+    "start": "prisma migrate deploy && prisma generate && npm run build && node --env-file=.env ./dist/index.js && node ./dist/index.js",
     "start:dev": "npm run build && node --env-file=.env ./dist/index.js && node ./dist/index.js",
     "test": "jest"
   }

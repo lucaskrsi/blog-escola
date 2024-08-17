@@ -26,7 +26,7 @@ function getAllAdmin(req, res, next) {
                     published: post.isPublished(),
                 };
             });
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     posts: list,
                 },

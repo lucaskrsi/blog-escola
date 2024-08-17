@@ -20,7 +20,6 @@ function getAllSearch(req, res, next) {
                 keyword: zod_1.z.optional(zod_1.z.string().transform(value => value.replace(/\s+/g, ''))),
             });
             const { keyword } = createParam.parse(req.query);
-            console.log(keyword);
             const postRepository = (0, makePostRepository_1.makePostRepository)();
             const postList = yield postRepository.getAllSearch(keyword);
             let list = postList.map(post => {
@@ -31,7 +30,7 @@ function getAllSearch(req, res, next) {
                     author: post.getAuthor().getId(),
                 };
             });
-            res.status(201).json({
+            res.status(200).json({
                 data: {
                     posts: list,
                 },

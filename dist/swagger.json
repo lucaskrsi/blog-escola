@@ -1726,7 +1726,7 @@
         "/posts/search": {
             "get": {
                 "summary": "Get All Posts (Searching)",
-                "description": "Route to get all posts by post name or/and author name",
+                "description": "Route to get all posts by a keyword from the title or content of the post",
                 "tags": [
                     "Posts"
                 ],
@@ -1737,15 +1737,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "keyword",
                         "in": "query",
-                        "description": "Post name",
-                        "required": false
-                    },
-                    {
-                        "name": "author",
-                        "in": "query",
-                        "description": "Post author name",
+                        "description": "A keyword from the title or content of the post",
                         "required": false
                     }
                 ],
