@@ -62,6 +62,23 @@ class ProfessorRepository {
             return professor;
         });
     }
+    getByUserId(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const professorPrisma = yield client_1.prisma.professor.findUnique({
+                where: {
+                    userId: id,
+                },
+                include: {
+                    user: true,
+                }
+            });
+            if (!professorPrisma) {
+                throw HttpException_1.HttpException.NotFoundError("Professor not found");
+            }
+            const professor = new Professor_1.Professor(new User_1.User(professorPrisma.user.name, professorPrisma.user.email, professorPrisma.user.password, professorPrisma.user.role, professorPrisma.user.id), professorPrisma.professorNumber, professorPrisma.id);
+            return professor;
+        });
+    }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             const professorPrisma = yield client_1.prisma.professor.findMany({

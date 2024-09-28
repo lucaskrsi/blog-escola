@@ -63,6 +63,23 @@ class StudentRepository {
             return student;
         });
     }
+    getByUserId(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const studentPrisma = yield client_1.prisma.student.findUnique({
+                where: {
+                    userId: id,
+                },
+                include: {
+                    user: true,
+                }
+            });
+            if (!studentPrisma) {
+                throw HttpException_1.HttpException.NotFoundError("Student not found");
+            }
+            const student = new Student_1.Student(new User_1.User(studentPrisma.user.name, studentPrisma.user.email, studentPrisma.user.password, studentPrisma.user.role, studentPrisma.user.id), studentPrisma.birthDate.toString(), studentPrisma.ra, studentPrisma.id);
+            return student;
+        });
+    }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             const studentPrisma = yield client_1.prisma.student.findMany({

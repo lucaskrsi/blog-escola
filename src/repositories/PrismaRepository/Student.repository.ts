@@ -69,6 +69,36 @@ export class StudentRepository implements IStudentRepository {
 
         return student;
     }
+    
+    async getByUserId(id: string): Promise<IStudent> {
+        const studentPrisma = await prisma.student.findUnique({
+            where: {
+                userId: id,
+            },
+            include: {
+                user: true,
+            }
+        })
+
+        if (!studentPrisma) {
+            throw HttpException.NotFoundError("Student not found");
+        }
+
+        const student = new Student(
+            new User(
+                studentPrisma.user.name,
+                studentPrisma.user.email,
+                studentPrisma.user.password,
+                studentPrisma.user.role,
+                studentPrisma.user.id
+            ),
+            studentPrisma.birthDate.toString(),
+            studentPrisma.ra,
+            studentPrisma.id
+        );
+
+        return student;
+    }
 
     async getAll(): Promise<IStudent[]> {
         const studentPrisma = await prisma.student.findMany({

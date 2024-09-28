@@ -68,6 +68,35 @@ export class ProfessorRepository implements IProfessorRepository {
         return professor;
     }
 
+    async getByUserId(id: string): Promise<IProfessor> {
+        const professorPrisma = await prisma.professor.findUnique({
+            where: {
+                userId: id,
+            },
+            include: {
+                user: true,
+            }
+        })
+
+        if (!professorPrisma) {
+            throw HttpException.NotFoundError("Professor not found");
+        }
+
+        const professor = new Professor(
+            new User(
+                professorPrisma.user.name,
+                professorPrisma.user.email,
+                professorPrisma.user.password,
+                professorPrisma.user.role,
+                professorPrisma.user.id
+            ),
+            professorPrisma.professorNumber,
+            professorPrisma.id
+        );
+
+        return professor;
+    }
+
     async getAll(): Promise<IProfessor[]> {
         const professorPrisma = await prisma.professor.findMany({
             include:{
