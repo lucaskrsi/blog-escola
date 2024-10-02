@@ -15,7 +15,7 @@ export function userRoutes(router: Router):void{
     router.post("/users/login", login);
     router.post("/users/refresh-token", refreshToken);
     router.get("/users", [ensureAuthenticated, authorizationVerifier], getAll);
-    router.get("/users/:id", [ensureAuthenticated, authorizationVerifier], get);
+    router.get("/users/:id", [ensureAuthenticated], get);
     router.get("/users/professor/:id", [ensureAuthenticated], getByUserProfessor);
     router.get("/users/student/:id", [ensureAuthenticated], getByUserStudent);
     router.delete("/users/:id", [ensureAuthenticated, authorizationVerifier], remove);
