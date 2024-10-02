@@ -9,7 +9,7 @@ import { get } from "./professor/get";
 
 export function professorRoutes(router: Router):void{
     router.get("/professors", [ensureAuthenticated, authorizationVerifier], getAll);
-    router.get("/professors/:id", [ensureAuthenticated, authorizationVerifier], get);
+    router.get("/professors/:id", [ensureAuthenticated], get);
     router.delete("/professors/:id", [ensureAuthenticated, authorizationVerifier], remove);
     router.put("/professors/:id", [ensureAuthenticated, authorizationVerifier], update);
     router.post("/professors", create);
