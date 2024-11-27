@@ -29,6 +29,12 @@ function login(req, res, next) {
                 data: {
                     token,
                     refreshToken,
+                    user: {
+                        id: user.getId(),
+                        name: user.getName(),
+                        email: user.getEmail(),
+                        role: user.getRole()
+                    }
                 }
             });
         }

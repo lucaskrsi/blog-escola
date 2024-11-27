@@ -22,7 +22,15 @@ function getAll(req, res, next) {
                     id: post.getId(),
                     title: post.getTitle(),
                     content: post.getContent(),
-                    author: post.getAuthor().getId(),
+                    author: {
+                        id: post.getAuthor().getId(),
+                        name: post.getAuthor().user.getName(),
+                        email: post.getAuthor().user.getEmail()
+                    },
+                    class: {
+                        id: post.getClass().getId(),
+                        name: post.getClass().getName()
+                    }
                 };
             });
             res.status(200).json({

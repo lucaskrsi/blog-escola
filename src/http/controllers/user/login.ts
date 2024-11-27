@@ -19,6 +19,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             data: {
                 token,
                 refreshToken,
+                user: {
+                    id: user.getId(),
+                    name: user.getName(),
+                    email: user.getEmail(),
+                    role: user.getRole()
+                }
             }
         });
     } catch (e) {

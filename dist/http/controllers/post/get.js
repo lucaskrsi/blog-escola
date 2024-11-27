@@ -13,6 +13,7 @@ exports.get = void 0;
 const zod_1 = require("zod");
 const ErrorHandler_1 = require("../../../exceptions/ErrorHandler");
 const makePostRepository_1 = require("../../../repositories/factory/makePostRepository");
+const makeUserRepository_1 = require("../../../repositories/factory/makeUserRepository");
 function get(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -22,12 +23,22 @@ function get(req, res, next) {
             const { id } = createParam.parse(req.params);
             const postRepository = (0, makePostRepository_1.makePostRepository)();
             const post = yield postRepository.get(id);
+            const userRepository = (0, makeUserRepository_1.makeUserRepository)();
+            const author = yield userRepository.get(post.getAuthor().getUserId());
             res.status(200).json({
                 data: {
                     id: post.getId(),
                     title: post.getTitle(),
                     content: post.getContent(),
-                    author: post.getAuthor().getId(),
+                    author: {
+                        id: post.getAuthor().getId(),
+                        name: post.getAuthor().user.getName(),
+                        email: post.getAuthor().user.getEmail()
+                    },
+                    class: {
+                        id: post.getClass().getId(),
+                        name: post.getClass().getName()
+                    },
                     published: post.isPublished(),
                 },
             });

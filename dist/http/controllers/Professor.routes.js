@@ -10,7 +10,7 @@ const update_1 = require("./professor/update");
 const get_1 = require("./professor/get");
 function professorRoutes(router) {
     router.get("/professors", [ensureAuthenticated_1.ensureAuthenticated, authorizationVerifier_1.authorizationVerifier], get_all_1.getAll);
-    router.get("/professors/:id", [ensureAuthenticated_1.ensureAuthenticated, authorizationVerifier_1.authorizationVerifier], get_1.get);
+    router.get("/professors/:id", [ensureAuthenticated_1.ensureAuthenticated], get_1.get);
     router.delete("/professors/:id", [ensureAuthenticated_1.ensureAuthenticated, authorizationVerifier_1.authorizationVerifier], remove_1.remove);
     router.put("/professors/:id", [ensureAuthenticated_1.ensureAuthenticated, authorizationVerifier_1.authorizationVerifier], update_1.update);
     router.post("/professors", create_1.create);

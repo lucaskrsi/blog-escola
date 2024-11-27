@@ -12,8 +12,16 @@ export async function getAllAdmin(req: Request, res: Response, next: NextFunctio
                 id: post.getId(),
                 title: post.getTitle(),
                 content: post.getContent(),
-                author: post.getAuthor().getId(),
+                author: {
+                    id: post.getAuthor().getId(),
+                    name: post.getAuthor().user.getName(),
+                    email: post.getAuthor().user.getEmail()
+                },
                 published: post.isPublished(),
+                class: {
+                    id: post.getClass().getId(),
+                    name: post.getClass().getName()
+                }
             };
         });
         res.status(200).json({

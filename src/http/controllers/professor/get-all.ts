@@ -10,7 +10,7 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
         let list = professorList.map(professor => {
             return {
                 id: professor.getId(),
-                birthDate: professor.getProfessorNumber(),
+                professorNumber: professor.getProfessorNumber(),
                 user:{
                     id: professor.user.getId(),
                     name: professor.user.getName(),

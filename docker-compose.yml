@@ -1,19 +1,7 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    container_name: blog-escola-app
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - JWT_KEY=${JWT_KEY}
-    ports:
-      - '3000:3000'
-    depends_on:
-      - postgres
-    networks:
-      - blog-escola-network
-
+  
   postgres:
     image: bitnami/postgresql:latest
     container_name: Postgres

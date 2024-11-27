@@ -20,7 +20,15 @@ export async function get(req: Request, res: Response, next: NextFunction) {
                 id: post.getId(),
                 title: post.getTitle(),
                 content: post.getContent(),
-                author: author.getName(),
+                author: {
+                    id: post.getAuthor().getId(),
+                    name: post.getAuthor().user.getName(),
+                    email: post.getAuthor().user.getEmail()
+                },
+                class: {
+                    id: post.getClass().getId(),
+                    name: post.getClass().getName()
+                },
                 published: post.isPublished(),
             },
         });
