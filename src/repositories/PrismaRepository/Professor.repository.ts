@@ -141,7 +141,7 @@ export class ProfessorRepository implements IProfessorRepository {
                         data: {
                             name: (typeof name == "string") ? name : professorPrisma.user.getName(),
                             email: (typeof email == "string") ? email : professorPrisma.user.getEmail(),
-                            password: (typeof password == "string") ? hashSync(password, 10) : professorPrisma.user.getPassword(),
+                            password: (typeof password == "string" && password.trim() != "") ? hashSync(password, 10) : professorPrisma.user.getPassword(),
                         }
                     }
                 }

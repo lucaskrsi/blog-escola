@@ -112,7 +112,7 @@ class ProfessorRepository {
                             data: {
                                 name: (typeof name == "string") ? name : professorPrisma.user.getName(),
                                 email: (typeof email == "string") ? email : professorPrisma.user.getEmail(),
-                                password: (typeof password == "string") ? (0, bcrypt_1.hashSync)(password, 10) : professorPrisma.user.getPassword(),
+                                password: (typeof password == "string" && password.trim() != "") ? (0, bcrypt_1.hashSync)(password, 10) : professorPrisma.user.getPassword(),
                             }
                         }
                     }

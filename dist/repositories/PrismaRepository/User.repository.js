@@ -89,7 +89,7 @@ class UserRepository {
                 data: {
                     name: (typeof name == "string") ? name : userPrisma.getName(),
                     email: (typeof email == "string") ? email : userPrisma.getEmail(),
-                    password: (typeof password == "string") ? (0, bcrypt_1.hashSync)(password, 10) : userPrisma.getPassword(),
+                    password: (typeof password == "string" && password.trim() != "") ? (0, bcrypt_1.hashSync)(password, 10) : userPrisma.getPassword(),
                     role: ['STUDENT', 'PROFESSOR'].includes(role) ? (role == 'STUDENT' ? client_2.Role.STUDENT : client_2.Role.PROFESSOR) : userPrisma.getRole() == 'STUDENT' ? client_2.Role.STUDENT : client_2.Role.PROFESSOR,
                 },
             });

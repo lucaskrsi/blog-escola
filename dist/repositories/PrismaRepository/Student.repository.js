@@ -114,7 +114,7 @@ class StudentRepository {
                             data: {
                                 name: (typeof name == "string") ? name : studentPrisma.user.getName(),
                                 email: (typeof email == "string") ? email : studentPrisma.user.getEmail(),
-                                password: (typeof password == "string") ? (0, bcrypt_1.hashSync)(password, 10) : studentPrisma.user.getPassword(),
+                                password: (typeof password == "string" && password.trim() != "") ? (0, bcrypt_1.hashSync)(password, 10) : studentPrisma.user.getPassword(),
                             }
                         }
                     }

@@ -106,7 +106,7 @@ export class UserRepository implements IUserRepository {
             data: {
                 name: (typeof name == "string") ? name : userPrisma.getName(),
                 email: (typeof email == "string") ? email : userPrisma.getEmail(),
-                password: (typeof password == "string") ? hashSync(password, 10) : userPrisma.getPassword(),
+                password: (typeof password == "string" && password.trim() != "") ? hashSync(password, 10) : userPrisma.getPassword(),
                 role: ['STUDENT', 'PROFESSOR'].includes(role) ? (role == 'STUDENT' ? Role.STUDENT : Role.PROFESSOR) : userPrisma.getRole() == 'STUDENT' ? Role.STUDENT : Role.PROFESSOR,
             },
         })

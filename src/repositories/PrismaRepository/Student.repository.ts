@@ -146,7 +146,7 @@ export class StudentRepository implements IStudentRepository {
                         data: {
                             name: (typeof name == "string") ? name : studentPrisma.user.getName(),
                             email: (typeof email == "string") ? email : studentPrisma.user.getEmail(),
-                            password: (typeof password == "string") ? hashSync(password, 10) : studentPrisma.user.getPassword(),
+                            password: (typeof password == "string" && password.trim() != "") ? hashSync(password, 10) : studentPrisma.user.getPassword(),
                         }
                     }
                 }

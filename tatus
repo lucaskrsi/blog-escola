@@ -1,0 +1,309 @@
+[33mcommit e2dd6bf3455e68ea82fe6fe3a7c7922c083867d6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Wed Nov 27 20:58:28 2024 -0300
+
+    fix: Fixing route returns
+
+[33mcommit 04af3af02a727d49ec2f2e4399bcbda44622fecb[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Oct 1 23:31:13 2024 -0300
+
+    feat: post return author´s name
+
+[33mcommit 3eeeab77630c5f1bb0a11c200d94e0481de74b2c[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Oct 1 23:23:20 2024 -0300
+
+    feat: aluno pode buscar professor
+
+[33mcommit 1c6509682eea7ef1ef83c6d33af364b0f4d00410[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Oct 1 22:58:47 2024 -0300
+
+    feat: estudante consegue consultar usuario
+
+[33mcommit cfe43517f018e6f8fc1307e1108efa3301b1a85a[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Fri Sep 27 22:06:34 2024 -0300
+
+    feat: Get professor and Studet by userId
+
+[33mcommit 917fb34ba792f09eef4bbf470ffb85e711d95d80[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Wed Sep 25 22:00:09 2024 -0300
+
+    feat: cors allow all
+
+[33mcommit a6b5e29f127136b4a85ec6a84108be08510d02d4[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sat Aug 17 16:55:59 2024 -0300
+
+    fix: Start application command
+
+[33mcommit 44cb8561760ebc2317d4c168073a126ae120d8d4[m
+Merge: c6cc4fa 6d60560
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Aug 4 15:34:32 2024 -0300
+
+    Merge pull request #4 from lucaskrsi/mptests
+    
+    [mptests] - Tests - Professor and Student
+
+[33mcommit 6d60560f9e97561e40ee0dc12b73ad4260cbe1da[m[33m ([m[1;31morigin/mptests[m[33m)[m
+Author: Mauricio Pettinate <mauriciopettinate@gmail.com>
+Date:   Sun Aug 4 15:20:15 2024 -0300
+
+    [mptests] - Tests - Professor and Student
+
+[33mcommit c6cc4fac36130f7c4039f34c241c2ad063cfea50[m
+Merge: c00fab8 4421d01
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Thu Aug 1 20:17:57 2024 -0300
+
+    Merge pull request #3 from lucaskrsi/mauricio
+    
+    Mauricio - Tests
+
+[33mcommit 4421d0187c080818d3007f16a4df6750235155ea[m[33m ([m[1;31morigin/mauricio[m[33m)[m
+Merge: 1a473e3 c00fab8
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Thu Aug 1 20:17:31 2024 -0300
+
+    Merge branch 'master' into mauricio
+
+[33mcommit 1a473e31da75d090e92d722410cc76640a4748ed[m
+Author: Mauricio Pettinate <mauriciopettinate@gmail.com>
+Date:   Thu Aug 1 20:07:39 2024 -0300
+
+    [mauricio] - Tests
+
+[33mcommit c00fab888120b8fed3844ffeef52b7e6a1ee21a5[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jul 30 22:46:20 2024 -0300
+
+    fix: Success response codes
+
+[33mcommit d038bfc5c16af1b34a95bf4b56b8a15ed98b02ce[m
+Author: Mauricio Pettinate <mauriciopettinate@gmail.com>
+Date:   Tue Jul 30 19:55:14 2024 -0300
+
+    [mauricio] - professor.test.js - Final
+
+[33mcommit a2b414d21911f52e1c745205742cc62b736a0078[m
+Merge: 0a1f7b2 a7fcb2d
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Mon Jul 29 23:53:31 2024 -0300
+
+    Merge pull request #2 from lucaskrsi/api-docs
+    
+    Api docs
+
+[33mcommit a7fcb2ddd2ccc69826582a9781aa65126aac31ab[m[33m ([m[1;31morigin/api-docs[m[33m, [m[1;32mapi-docs[m[33m)[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Mon Jul 29 23:48:48 2024 -0300
+
+    docs: New query params to post search
+
+[33mcommit 0a1f7b2ae09b11f0cfee0eb8ca2b6989e259ba69[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Mon Jul 29 23:44:21 2024 -0300
+
+    feat: Search posts and admin route
+
+[33mcommit b3bafbdbf79dae2612c616ba3e4583a6dee4413d[m
+Author: Mauricio Pettinate <mauriciopettinate@gmail.com>
+Date:   Mon Jul 29 22:39:35 2024 -0300
+
+    [mauricio] - commit com todos os testes funcionando (Professor)
+
+[33mcommit b44099dece49fad03c1f753e768c8dfc841a147f[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Mon Jul 29 22:18:18 2024 -0300
+
+    docs: All API routes
+
+[33mcommit e94892404f985dc93064aeb3724248fae2352e62[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Mon Jul 29 17:06:12 2024 -0300
+
+    docs: Add new routes to swagger docs
+
+[33mcommit a15fb4ba930df6a8d8974f0fe750ad237a2ca080[m
+Author: Mauricio Pettinate <mauriciopettinate@gmail.com>
+Date:   Sun Jul 28 16:11:21 2024 -0300
+
+    [mauricio] - Atualizações teste
+
+[33mcommit 49a1c84700d35942dede0ef39180785efc68339c[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Wed Jul 24 17:02:41 2024 -0300
+
+    docs(api-docs): Add some routes on swagger docs
+
+[33mcommit 6c8941a5dcb7410f53967647eec3bb831b813acb[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jul 23 23:52:45 2024 -0300
+
+    ops: Command to run database schema
+
+[33mcommit 8feaa6275580dde9d8370359128a8c9dd1c9f60e[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jul 23 23:43:38 2024 -0300
+
+    Update deploy.yml
+
+[33mcommit 0ac8c1fb78550dd7ab016ce92ff9fe43247f55b0[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jul 23 23:39:52 2024 -0300
+
+    Update deploy.yml to deploy database schema
+
+[33mcommit acda1c459c98b27166f4227512ca6db776e8d0cc[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jul 23 17:08:32 2024 -0300
+
+    fix: Define port on env file
+
+[33mcommit 8949f0bbfd81b056904a54a4abe9f30a55bb72aa[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jul 23 16:32:13 2024 -0300
+
+    fix: Update deploy.yml for running app
+
+[33mcommit 595fcbb00af6af6c880953726f338f10335ad3b0[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jul 23 16:11:45 2024 -0300
+
+    ops: Docker network and node version
+
+[33mcommit 0382219a3b19ae027963889875938d246673920a[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Mon Jul 22 16:02:08 2024 -0300
+
+    fix: Update deploy.yml with render deploy action
+    
+    Remove ssh connection;
+    Add Render API deploy integration
+
+[33mcommit 2339dc388f363f4ca0c4e66854aaf3ea63de20af[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 16:46:10 2024 -0300
+
+    Update deploy.yml
+
+[33mcommit e2562bdf72bc69fbf1dbdf835e83386bdd77f2ec[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 16:33:17 2024 -0300
+
+    Update deploy.yml
+
+[33mcommit e95814106a2f37363e671d0b11d639c3c2c183c1[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 16:32:12 2024 -0300
+
+    Update deploy.yml
+
+[33mcommit b3baaa883f9ad948c58d7befd62a84f3f95c7572[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 15:49:23 2024 -0300
+
+    fix: Update deploy.yml
+
+[33mcommit 64765b33887e813019a39e2a60879dcd12be6eea[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 15:42:34 2024 -0300
+
+    chore: Add test folder
+
+[33mcommit 475bfc86ad343958aef7f3921a87084fe6f25007[m
+Merge: 6d2e261 f7735a6
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 14:28:45 2024 -0300
+
+    Merge pull request #1 from PSMFigueiredo/feature/docker
+    
+    docker funcionando
+
+[33mcommit f7735a696b442e5f3012b102720a1cb5f51cd951[m
+Author: Priscyla Stefanea Moura Figueiredo <priscylastefanea@gmail.com>
+Date:   Sun Jul 21 14:22:36 2024 -0300
+
+    docker funcionando
+
+[33mcommit 6d2e261ee5e8cd4ac72f140db8f1056cfe079d9a[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 13:58:31 2024 -0300
+
+    docs: Add README
+
+[33mcommit 6e016240dcfcecc493cdca661dd048f3d2e9d581[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sun Jul 21 13:45:21 2024 -0300
+
+    feat: Add and remove students from class
+
+[33mcommit ed2c92f9b8cf9e7a6cf41d5bd7c8d5fe7af96249[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Sat Jul 20 21:45:33 2024 -0300
+
+    feat: Finishing all routes
+
+[33mcommit 4d07571a90fd70439c4a2b0994997eb0ffb76169[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Thu Jul 18 17:03:59 2024 -0300
+
+    refactor: Student repository, routes, interfaces and models
+
+[33mcommit abc1cb7e3d73d4c794b99666ab66eb833cf3e966[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Wed Jul 10 20:42:01 2024 -0300
+
+    fix: Solving refactor errors
+
+[33mcommit 18a98216e2582f0ee426b7712b74859e4617eca7[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Wed Jul 10 17:04:51 2024 -0300
+
+    refactor: Repository pattern
+
+[33mcommit d96602552fdd69558e3e5d2672bc8326262a3e8b[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Fri Jun 14 16:07:17 2024 -0300
+
+    feat: Authorization verifier
+
+[33mcommit 9d162c404260da10ea7b1c68ea32bc44f1717089[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Thu Jun 13 17:12:15 2024 -0300
+
+    feat: Refresh token
+
+[33mcommit 18869c9af8db19324aa1c4b9515778f017f59283[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Wed Jun 12 17:06:53 2024 -0300
+
+    feat: Authentication token
+
+[33mcommit 9b17f0de9fd915665e3e73ab44fec1ce2534cc9e[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Wed Jun 12 01:40:16 2024 -0300
+
+    feat: Error handler that works with prisma client and http exceptions
+
+[33mcommit 7c0e2a3f999710c9c213d43e5e121d416dae881c[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Tue Jun 11 17:07:42 2024 -0300
+
+    feat: Exceptions and User methods
+
+[33mcommit 9a281e3e11c9e421679aeb0b0643e1c6dec45e9f[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Mon Jun 10 17:01:56 2024 -0300
+
+    feat: Entities and routes
+
+[33mcommit 495e1d891772aa587f33167b3a7823fe7b6f99ba[m
+Author: Lucas Pereira <lucas.silva.code@outlook.com.br>
+Date:   Fri Jun 7 00:32:21 2024 -0300
+
+    feat: Initial commit
