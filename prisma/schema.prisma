@@ -37,11 +37,14 @@ model Student {
 }
 
 model Professor {
-  id              String @id @default(uuid())
-  professorNumber Int    @unique
-  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId          String @unique
-  Post            Post[]
+  id                    String                  @id @default(uuid())
+  professorNumber       Int                     @unique
+  user                  User                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId                String                  @unique
+  Post                  Post[]
+  ProfessorAvaliability ProfessorAvaliability[]
+  ClassSubjectTaught    ClassSubjectTaught[]
+  Classroom             Classroom[]
 }
 
 model Post {
@@ -61,10 +64,12 @@ model Post {
 }
 
 model Class {
-  id      String    @id @default(uuid())
-  name    String
-  student Student[]
-  posts   Post[]
+  id                    String                  @id @default(uuid())
+  name                  String
+  student               Student[]
+  posts                 Post[]
+  ClassCourseCurriculum ClassCourseCurriculum[]
+  Classroom             Classroom[]
 }
 
 model RefreshToken {
@@ -75,6 +80,84 @@ model RefreshToken {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+model ClassSubject {
+  id                 String               @id @default(uuid())
+  name               String
+  ClassSubjectTaught ClassSubjectTaught[]
+  CourseClassSubject CourseClassSubject[]
+  Classroom          Classroom[]
+}
+
+model ProfessorAvaliability {
+  id          String    @id @default(uuid())
+  professorId String
+  professor   Professor @relation(fields: [professorId], references: [id])
+  dayOfWeek   Int
+  startTime   DateTime
+  endTime     DateTime
+
+  @@index([professorId])
+}
+
+model ClassSubjectTaught {
+  id             String       @id @default(uuid())
+  classSubjectId String
+  classSubject   ClassSubject @relation(fields: [classSubjectId], references: [id])
+  professorId    String
+  professor      Professor    @relation(fields: [professorId], references: [id])
+
+  @@index([classSubjectId])
+  @@index([professorId])
+}
+
+model CourseCurriculum {
+  id                    String                  @id @default(uuid())
+  name                  String
+  CourseClassSubject    CourseClassSubject[]
+  ClassCourseCurriculum ClassCourseCurriculum[]
+}
+
+model CourseClassSubject {
+  id                 String           @id @default(uuid())
+  courseCurriculumId String
+  courseCurriculum   CourseCurriculum @relation(fields: [courseCurriculumId], references: [id])
+  classSubjectId     String
+  classSubject       ClassSubject     @relation(fields: [classSubjectId], references: [id])
+
+  @@index([courseCurriculumId])
+  @@index([classSubjectId])
+}
+
+model ClassCourseCurriculum {
+  id                 String           @id @default(uuid())
+  classId            String
+  class              Class            @relation(fields: [classId], references: [id])
+  courseCurriculumId String
+  courseCurriculum   CourseCurriculum @relation(fields: [courseCurriculumId], references: [id])
+  semester           Int
+
+  @@index([classId])
+  @@index([courseCurriculumId])
+}
+
+model Classroom {
+  id                String       @id @default(uuid())
+  name              String
+  classroomPeriod   String
+  classroomCapacity Int
+  classId           String
+  class             Class        @relation(fields: [classId], references: [id])
+  classSubjectId    String
+  classSubject      ClassSubject @relation(fields: [classSubjectId], references: [id])
+  professorId       String
+  professor         Professor    @relation(fields: [professorId], references: [id])
+  hours             Int
+
+  @@index([classId])
+  @@index([classSubjectId])
+  @@index([professorId])
 }
 
 enum Role {
